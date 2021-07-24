@@ -1,0 +1,24 @@
+@import '../mixins.scss';
+
+.AppLayout {
+  &-content {
+    flex-grow: 1;
+  }
+
+  .ant-layout-header {
+    margin-bottom: 0;
+  }
+}
+
+@include md {
+  .AppLayout {
+    &-content {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .ant-layout-header {
+      padding: 0 16px;
+    }
+  }
+}

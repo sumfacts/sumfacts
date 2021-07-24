@@ -1,0 +1,9 @@
+@import '../mixins.scss';
+
+.About {
+}
+
+@include md {
+  .About {
+  }
+}

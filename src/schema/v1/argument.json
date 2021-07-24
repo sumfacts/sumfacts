@@ -1,0 +1,304 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://raw.githubusercontent.com/sumfacts/sumfacts/master/src/schema/v1/argument.json",
+  "type": "object",
+  "title": "SumFacts Argument",
+  "description": "The Argument schema comprises the entire JSON document needed to represent an argument in the SumFacts system.",
+  "default": {},
+  "examples": [
+      {
+          "cid": "xyz",
+          "clientUri": "/cid/xyz",
+          "position": [
+              0,
+              0
+          ],
+          "zoom": 1,
+          "elements": [
+              {
+                  "id": "Pstgw8nujJwlSVs6mmaU6",
+                  "position": {
+                      "x": 615,
+                      "y": 135
+                  },
+                  "data": {
+                      "label": "Aliens exist",
+                      "type": "text"
+                  }
+              },
+              {
+                  "id": "-q8padZj8XP6e3O5RBdkJ",
+                  "position": {
+                      "x": 1080,
+                      "y": 120
+                  },
+                  "data": {
+                      "label": "Roswell crash",
+                      "type": "text"
+                  }
+              },
+              {
+                  "id": "nBPbi_9D1Whctabq-k1a-",
+                  "source": "-q8padZj8XP6e3O5RBdkJ",
+                  "target": "Pstgw8nujJwlSVs6mmaU6"
+              }
+          ]
+      }
+  ],
+  "required": [
+      "elements"
+  ],
+  "properties": {
+      "cid": {
+          "$id": "#/properties/cid",
+          "type": "string",
+          "title": "The cid schema",
+          "description": "The IPFS cid.",
+          "default": "",
+          "examples": [
+              "xyz"
+          ]
+      },
+      "clientUri": {
+          "$id": "#/properties/clientUri",
+          "type": "string",
+          "title": "The clientUri schema",
+          "description": "The relative URI at which the Argument can be viewed in the SumFacts client.",
+          "default": "",
+          "examples": [
+              "/cid/xyz"
+          ]
+      },
+      "position": {
+          "$id": "#/properties/position",
+          "type": "array",
+          "title": "The position schema",
+          "description": "The initial diagram pan position ([x, y]).",
+          "default": [],
+          "examples": [
+              [
+                  100,
+                  200
+              ]
+          ]
+      },
+      "zoom": {
+          "$id": "#/properties/zoom",
+          "type": "integer",
+          "title": "The zoom schema",
+          "description": "The initial zoom settings.",
+          "default": 0,
+          "examples": [
+              1
+          ]
+      },
+      "elements": {
+          "$id": "#/properties/elements",
+          "type": "array",
+          "title": "The elements schema",
+          "default": [],
+          "examples": [
+              [
+                  {
+                      "id": "Pstgw8nujJwlSVs6mmaU6",
+                      "position": {
+                          "x": 615,
+                          "y": 135
+                      },
+                      "data": {
+                          "label": "Aliens exist",
+                          "type": "text"
+                      }
+                  },
+                  {
+                      "id": "-q8padZj8XP6e3O5RBdkJ",
+                      "position": {
+                          "x": 1080,
+                          "y": 120
+                      },
+                      "data": {
+                          "label": "Roswell crash",
+                          "type": "text"
+                      }
+                  }
+              ]
+          ],
+          "items": {
+              "$id": "#/properties/elements/items",
+              "anyOf": [
+                  {
+                      "$id": "#/properties/elements/items/anyOf/0",
+                      "type": "object",
+                      "title": "The node schema",
+                      "description": "The node element schema.",
+                      "default": {},
+                      "examples": [
+                          {
+                              "id": "Pstgw8nujJwlSVs6mmaU6",
+                              "position": {
+                                  "x": 615,
+                                  "y": 135
+                              },
+                              "data": {
+                                  "label": "Aliens exist",
+                                  "type": "text"
+                              }
+                          }
+                      ],
+                      "required": [
+                          "id",
+                          "position",
+                          "data"
+                      ],
+                      "properties": {
+                          "id": {
+                              "$id": "#/properties/elements/items/anyOf/0/properties/id",
+                              "type": "string",
+                              "title": "The id schema",
+                              "default": "",
+                              "examples": [
+                                  "Pstgw8nujJwlSVs6mmaU6"
+                              ]
+                          },
+                          "position": {
+                              "$id": "#/properties/elements/items/anyOf/0/properties/position",
+                              "type": "object",
+                              "title": "The position schema",
+                              "description": "The node position.",
+                              "default": {},
+                              "examples": [
+                                  {
+                                      "x": 615,
+                                      "y": 135
+                                  }
+                              ],
+                              "required": [
+                                  "x",
+                                  "y"
+                              ],
+                              "properties": {
+                                  "x": {
+                                      "$id": "#/properties/elements/items/anyOf/0/properties/position/properties/x",
+                                      "type": "integer",
+                                      "title": "The x schema",
+                                      "description": "The node X position.",
+                                      "default": 0,
+                                      "examples": [
+                                          615
+                                      ]
+                                  },
+                                  "y": {
+                                      "$id": "#/properties/elements/items/anyOf/0/properties/position/properties/y",
+                                      "type": "integer",
+                                      "title": "The y schema",
+                                      "description": "The node Y position.",
+                                      "default": 0,
+                                      "examples": [
+                                          135
+                                      ]
+                                  }
+                              },
+                              "additionalProperties": true
+                          },
+                          "data": {
+                              "$id": "#/properties/elements/items/anyOf/0/properties/data",
+                              "type": "object",
+                              "title": "The node data schema",
+                              "default": {},
+                              "examples": [
+                                  {
+                                      "label": "Aliens exist",
+                                      "type": "text"
+                                  }
+                              ],
+                              "required": [
+                                  "label",
+                                  "type"
+                              ],
+                              "properties": {
+                                  "label": {
+                                      "$id": "#/properties/elements/items/anyOf/0/properties/data/properties/label",
+                                      "type": "string",
+                                      "title": "The node data label schema",
+                                      "description": "The node label.",
+                                      "default": "",
+                                      "examples": [
+                                          "Aliens exist"
+                                      ]
+                                  },
+                                  "type": {
+                                      "$id": "#/properties/elements/items/anyOf/0/properties/data/properties/type",
+                                      "type": "string",
+                                      "title": "The node data type schema",
+                                      "description": "The type of node.",
+                                      "default": "",
+                                      "examples": [
+                                          "text",
+                                          "link",
+                                          "and",
+                                          "or"
+                                      ]
+                                  }
+                              },
+                              "additionalProperties": true
+                          }
+                      },
+                      "additionalProperties": true
+                  },
+                  {
+                      "$id": "#/properties/elements/items/anyOf/1",
+                      "type": "object",
+                      "title": "The edge schema",
+                      "description": "The edge element schema.",
+                      "default": {},
+                      "examples": [
+                          {
+                              "id": "nBPbi_9D1Whctabq-k1a-",
+                              "source": "-q8padZj8XP6e3O5RBdkJ",
+                              "target": "Pstgw8nujJwlSVs6mmaU6"
+                          }
+                      ],
+                      "required": [
+                          "id",
+                          "source",
+                          "target"
+                      ],
+                      "properties": {
+                          "id": {
+                              "$id": "#/properties/elements/items/anyOf/1/properties/id",
+                              "type": "string",
+                              "title": "The id schema",
+                              "description": "The id of the edge.",
+                              "default": "",
+                              "examples": [
+                                  "nBPbi_9D1Whctabq-k1a-"
+                              ]
+                          },
+                          "source": {
+                              "$id": "#/properties/elements/items/anyOf/1/properties/source",
+                              "type": "string",
+                              "title": "The source schema",
+                              "description": "The source node of the edge.",
+                              "default": "",
+                              "examples": [
+                                  "-q8padZj8XP6e3O5RBdkJ"
+                              ]
+                          },
+                          "target": {
+                              "$id": "#/properties/elements/items/anyOf/1/properties/target",
+                              "type": "string",
+                              "title": "The target schema",
+                              "description": "The target node of the edge.",
+                              "default": "",
+                              "examples": [
+                                  "Pstgw8nujJwlSVs6mmaU6"
+                              ]
+                          }
+                      },
+                      "additionalProperties": true
+                  }
+              ]
+          }
+      }
+  }
+}

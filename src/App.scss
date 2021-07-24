@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+@import '~antd/dist/antd.css';
+@import 'mixins.scss';
+
+$primary: black;
+
+#root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+a,
+.ant-typography a {
+  &,
+  &:hover,
+  &:focus,
+  &.ant-typography {
+    color: black;
+  }
+}
+
+h1.ant-typography {
+  font-family: 'Merriweather Sans', sans-serif;
+  font-weight: 800;
+}
+
+body,
+.ant-typography,
+.ant-input,
+.ant-card,
+.ant-card-small > .ant-card-head {
+  font-family: 'Lato', sans-serif;
+  font-size: 1em;
+}
+
+.ant-btn {
+  cursor: pointer !important;
+  &-ghost {
+    &:hover {
+      border-color: $primary;
+
+      &,
+      .ant-typography {
+        color: $primary;
+      }
+    }
+  }
+
+  &-round.ant-btn-sm {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  &-round.ant-btn-lg {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.ant-btn-ghost {
+  &,
+  &:focus,
+  &:active {
+    background: transparent;
+    border-color: $primary;
+
+    button {
+      background: transparent;
+      border-color: $primary;
+
+      &,
+      .ant-typography {
+        color: $primary;
+      }
+    }
+
+    &,
+    .ant-typography {
+      color: $primary;
+    }
+  }
+
+  &[disabled],
+  &:disabled,
+  &[disabled]:hover,
+  &[disabled]:focus,
+  &[disabled]:active {
+    background: transparent;
+    border-color: #aaa;
+    cursor: not-allowed !important;
+
+    button {
+      // background: transparent;
+      border-color: #aaa;
+
+      &,
+      .ant-typography {
+        color: #aaa;
+      }
+    }
+
+    &,
+    .ant-typography {
+      color: #aaa;
+    }
+  }
+  &--active,
+  &.btn-active {
+    background: transparent;
+    &,
+    button {
+      background: $primary !important;
+      border-color: $primary !important;
+
+      &,
+      .ant-typography {
+        color: white !important;
+      }
+    }
+  }
+}
+
+.logo {
+  color: black;
+}
+
+.ant-layout {
+  background: ghostwhite;
+
+  &-header {
+    background-color: white;
+    color: black;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 50px 0 rgba(0,0,0,.05);
+
+    .ant-btn {
+      background: transparent;
+      color: black;
+      border-color: black;
+    }
+  }
+  &-content {
+    display: flex;
+  }
+}
+
+.ant-modal-mask,
+.underlay {
+  background-color: rgba(169, 169, 210, 0.55);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+@include lg {
+  .hide-lg {
+    &,
+    &.show {
+      display: none;
+    }
+  }
+}
+
+@include xl {
+  .hide-xl {
+    &,
+    &.show {
+      display: none;
+    }
+  }
+}
+
+@include xs {
+  .show-xs {
+    &,
+    &.hide {
+      display: block;
+    }
+  }
+}
+
+@include sm {
+  .show-sm {
+    &,
+    &.hide {
+      display: block;
+    }
+  }
+}
+
+@include md {
+  .show-md {
+    &,
+    &.hide {
+      display: block;
+    }
+  }
+}
+
+@include lg {
+  .show-lg {
+    &,
+    &.hide {
+      display: block;
+    }
+  }
+}
+
+@include xl {
+  .show-xl {
+    &,
+    &.hide {
+      display: block;
+    }
+  }
+}

@@ -40,8 +40,8 @@
 
 <p align="center">
   <a href="#motivation">Motivation</a> •
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
+  <a href="#sumfacts-features">Features</a> •
+  <a href="#usage">How To Use</a> •
   <a href="#credits">Credits</a> •
   <a href="#license">License</a>
 </p>
@@ -50,11 +50,11 @@
 
 The majority of information today is owned by relatively few organizations/people.
 
-We need a better way to collectively combine our individual pieces of information together if we are to reach consensus and educate each other about important topics.
+We need a system to collectively combine our individual pieces of information together to make sense of the whole. By reaching consensus and educating ourselves about important topics we can be empowered.
 
-In order for this to happen this system needs to be resistant to attack and censorship so that the truth isn't manipulated and obscured.
+In order for this to happen this system also needs to be resistant to attack and censorship so that the truth isn't manipulated and obscured.
 
-## Key Features
+## Features
 
 * 🕒 __Easy-to-use__ - it's quick to formulate arguments that are clear and stay on-topic. Spend less time fighting with software and more time arguing with people.
 
@@ -71,7 +71,7 @@ In order for this to happen this system needs to be resistant to attack and cens
 * 📥 __Export/import data__ - arguments can be exported as JSON and downloaded as image in JPEG format. Store important data offline and add diagrams to presentations for example. Import JSON to recreate arguments stored offline.
 
 
-## How To Use
+## Usage
 
 ### Official website
 

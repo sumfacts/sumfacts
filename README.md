@@ -52,7 +52,7 @@ The majority of information today is owned by relatively few organizations/peopl
 
 We need a better way to collectively combine our individual pieces of information together if we are to reach consensus and educate each other about important topics.
 
-In order for this to happen this system needs to be resistant to attack and censorship so that facts aren't manipulated and obscured.
+In order for this to happen this system needs to be resistant to attack and censorship so that the truth isn't manipulated and obscured.
 
 ## Key Features
 
@@ -75,7 +75,7 @@ In order for this to happen this system needs to be resistant to attack and cens
 
 ### Official website
 
-The easiest way to use SumFacts is at the official website: **[SumFacts.com](https://sumfacts.com)** 👈
+The easiest way to use SumFacts is at the official website: 👉 **[SumFacts.com](https://sumfacts.com)** 👈
 
 ### Running locally
 
@@ -84,6 +84,8 @@ Another way to use SumFacts is by cloning this repository and running it locally
 The data is all stored in the same place (the IPFS), which means no matter where you create an argument you will be able to see it using this application on any other computer if you have its unique CID.
 
 Therefore, if the official website ever gets attacked or shut down, the data will live on for as long as people have it cached in the IPFS network.
+
+### Installation
 
 To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
@@ -96,13 +98,25 @@ $ cd sumfacts
 
 # Install dependencies
 $ npm install
-
-# Build the app
-$ npm build
-
-# Run the app
-$ npm start
 ```
+
+### Development mode
+
+```
+# Run the app in development mode
+$ npm run dev
+```
+
+The app will run at [http://localhost:3000](http://localhost:3000) and recompile each time you make changes in the `/src` directory.
+
+### Deploying to production
+
+```bash
+# Build the app
+$ npm run build
+```
+
+Then serve the files in the `/build` directory.
 
 ## Credits
 

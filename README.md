@@ -8,9 +8,11 @@
   <br>
 </h1>
 
-<h4 align="center">A serverless diagram editor built with React and IPFS specifically designed for building logical arguments.
+<h4 align="center">A client-only diagram editor built with React and IPFS for building logical arguments.
   <br>
-  Visit <a href="https://sumfacts.com">SumFacts.com</a> to see the official live version.</h4>
+  <br>
+  <a href="https://sumfacts.com">SumFacts.com</a>
+</h4>
 
 <p align="center">
 </p>
@@ -19,7 +21,6 @@
   <a href="#motivation">Motivation</a> •
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
   <a href="#credits">Credits</a> •
   <a href="#license">License</a>
 </p>
@@ -46,7 +47,10 @@ Through collectively examining and discussing opposing ideas we will be able to 
 
 * __Export/Import Data__ - Arguments can be completely exported as JSON and downloaded in image format as JPEG. This means you can store important data offline if need be and add diagrams to presentations (for example). And import JSON to recreate arguments stored offline.
 
-* __Easy-to-use__ - The argument builder is designed to make it as easy as possible to quickly formulate arguments. The goal is to give you less time fighting with software and more time thinking about difficult concepts and ultimately finding truth.
+* __Easy-to-use__ - The argument builder is designed to make it as easy as possible to quickly formulate arguments that are clear and stay on-topic. The goal is to give you less time fighting with software and people, more time thinking about difficult concepts.
+
+* __Truth-finding__ - find holes in arguments and see where an argument falls flat. Expose logical flaws more easily - ad hominems, hate-speech, confirmation bias, etc...
+
 
 ## How To Use
 
@@ -103,9 +107,3 @@ This software uses the following open source packages:
 The MIT License (MIT)
 
 Copyright © 2021 Finn Fitzsimons
-
-> [sumfacts.com](https://www.sumfacts.com) &nbsp;&middot;&nbsp;
-> GitHub [@sumfacts](https://github.com/sumfacts), [@finnfiddle](https://github.com/finnfiddle)
-
-
-

@@ -8,18 +8,20 @@
   <br>
 </h1>
 
-<h4 align="center"><a href="https://sumfacts.com">SumFacts.com</a> - a client-only diagram editor for collaboratively building logical arguments shared over a P2P network.
+<h4 align="center"><a href="https://sumfacts.com">SumFacts.com</a> - a client-only diagram editor for collaboratively building logical arguments shared over a peer-to-peer network.
 </h4>
 
 <p align="center">
-  <img alt="Netlify" src="https://img.shields.io/netlify/e0dfd289-d0eb-49f1-8c8b-7cef447e8060">
   <a href="http://ipfs.io/">
-    <img alt="IPFS" src="https://img.shields.io/badge/project-IPFS-blue.svg?style=flat-square">
+    <img alt="IPFS" src="https://img.shields.io/badge/built_with-IPFS-blue.svg?style=flat-square">
+  </a>
+  <a href="https://reactjs.org/">
+    <img alt="IPFS" src="https://img.shields.io/badge/built_with-React-blue.svg?style=flat-square">
   </a>
   <a href="https://www.typescriptlang.org/">
     <img alt="TypeScript" src="https://img.shields.io/badge/built_with-TypeScript-blue.svg?style=flat-square">
   </a>
-  <img alt="Netlify" src="https://img.shields.io/netlify/e0dfd289-d0eb-49f1-8c8b-7cef447e8060">
+  <img alt="Netlify CI" src="https://img.shields.io/netlify/e0dfd289-d0eb-49f1-8c8b-7cef447e8060">
   <a href="https://github.com/sumfacts/sumfacts/issues">
     <img alt="Github Issues" src="https://img.shields.io/github/issues/sumfacts/sumfacts.svg">
   </a>
@@ -46,11 +48,11 @@
 
 ## Motivation
 
-The majority of information today is owned by relatively few organizations + people.
+The majority of information today is owned by relatively few organizations/people.
 
-We need a better way to combine nuggets of information together collectively in order to reach consensus, and educate each other about important topics.
+We need a better way to collectively combine our individual pieces of information together if we are to reach consensus and educate each other about important topics.
 
-This system needs to be resistant to attack and censorship.
+In order for this to happen this system needs to be resistant to attack and censorship so that facts aren't manipulated and obscured.
 
 ## Key Features
 
@@ -79,7 +81,7 @@ The easiest way to use SumFacts is at the official website: **[SumFacts.com](htt
 
 Another way to use SumFacts is by cloning this repository and running it locally on your computer.
 
-The data is all stored in the same place (the IPFS), which means no matter where you create an argument you will be able to see it using this application on any computer if you have its unique CID.
+The data is all stored in the same place (the IPFS), which means no matter where you create an argument you will be able to see it using this application on any other computer if you have its unique CID.
 
 Therefore, if the official website ever gets attacked or shut down, the data will live on for as long as people have it cached in the IPFS network.
 

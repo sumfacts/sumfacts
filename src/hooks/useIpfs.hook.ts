@@ -56,6 +56,7 @@ export const useIpfs = () => {
 
     const stream = await context.ipfs.cat(cid);
 
+    debugger
     let data = '';
 
     for await (const chunk of stream) {

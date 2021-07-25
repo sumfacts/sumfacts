@@ -11,6 +11,8 @@
 <h4 align="center"><a href="https://sumfacts.com">SumFacts.com</a> - a client-only diagram editor for collaboratively building logical arguments shared over a peer-to-peer network.
 </h4>
 
+![https://github.com/sumfacts/sumfacts/blob/master/public/about-banner.png?raw=true](https://github.com/sumfacts/sumfacts/blob/master/public/about-banner.png?raw=true)
+
 <p align="center">
   <a href="http://ipfs.io/">
     <img alt="IPFS" src="https://img.shields.io/badge/built_with-IPFS-blue.svg?style=flat-square">
@@ -43,8 +45,6 @@
   <a href="#credits">Credits</a> •
   <a href="#license">License</a>
 </p>
-
-![https://github.com/sumfacts/sumfacts/blob/master/public/about-banner.png?raw=true](https://github.com/sumfacts/sumfacts/blob/master/public/about-banner.png?raw=true)
 
 ## Motivation
 

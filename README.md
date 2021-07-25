@@ -8,7 +8,7 @@
   <br>
 </h1>
 
-<h4 align="center"><a href="https://sumfacts.com">SumFacts.com</a> - a client-only diagram editor built with React and IPFS for building logical arguments.
+<h4 align="center"><a href="https://sumfacts.com">SumFacts.com</a> - a client-only diagram editor for collaboratively building logical arguments shared over a P2P network.
 </h4>
 
 <p align="center">
@@ -46,11 +46,11 @@
 
 ## Motivation
 
-Information today is a source of power and the majority of it is owned by relatively few organizations and people.
+The majority of information today is owned by relatively few organizations + people.
 
-What the public needs is a way to combine pieces of information together in a way that it is easier to reach consensus and educate each other about important topics. It also needs to be resistant to attack and censorship.
+We need a better way to combine nuggets of information together collectively in order to reach consensus, and educate each other about important topics.
 
-Through collectively examining and discussing opposing ideas we will be able to find truth and clarity on matters.
+This system needs to be resistant to attack and censorship.
 
 ## Key Features
 
@@ -64,7 +64,7 @@ Through collectively examining and discussing opposing ideas we will be able to 
 
 * 📥   __Export/Import Data__ - arguments can be exported as JSON and downloaded as image in JPEG format. Store important data offline and add diagrams to presentations for example. Import JSON to recreate arguments stored offline.
 
-* 🕒   __Easy-to-use__ - its quick to formulate arguments that are clear and stay on-topic. Spend less time fighting with software and more time arguing with people.
+* 🕒   __Easy-to-use__ - it's quick to formulate arguments that are clear and stay on-topic. Spend less time fighting with software and more time arguing with people.
 
 * 👼   __Truth-finding__ - find holes in arguments and see where an argument falls flat. Expose logical flaws more easily - ad hominems, hate-speech, confirmation bias, etc...
 
@@ -73,7 +73,7 @@ Through collectively examining and discussing opposing ideas we will be able to 
 
 ### Official website
 
-The easiest way to use SumFacts is at the official website: **[SumFacts.com](https://sumfacts.com)**! 🤷‍♂️
+The easiest way to use SumFacts is at the official website: **[SumFacts.com](https://sumfacts.com)** 👈
 
 ### Running locally
 

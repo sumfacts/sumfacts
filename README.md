@@ -28,7 +28,7 @@
 
 Information today is a source of power and the majority of it is owned by relatively few organizations and people.
 
-What the public needs is a way to combine pieces of information together in a way that it is easier to make sense of the whole, reach consensus and educate each other about important topics.
+What the public needs is a way to combine pieces of information together in a way that it is easier to make sense of the whole, and educate each other about important topics. It also needs to be resistant to attack and censorship.
 
 Through collectively examining and discussing opposing ideas we will be able to find truth and clarity on matters.
 

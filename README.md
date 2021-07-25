@@ -1,7 +1,7 @@
 <h1 align="center">
   <br>
   <a href="https://sumfacts.com">
-    <img src="https://raw.githubusercontent.com/sumfacts/sumfacts/master/src/public/logo-large.png" alt="SumFacts" width="200">
+    <img src="https://raw.githubusercontent.com/sumfacts/sumfacts/master/public/logo-large.png" alt="SumFacts" width="200">
   </a>
   <br>
   SumFacts
@@ -25,7 +25,7 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](https://raw.githubusercontent.com/sumfacts/sumfacts/master/src/public/about-banner.png)
+![screenshot](https://raw.githubusercontent.com/sumfacts/sumfacts/master/public/about-banner.png)
 
 ## Motivation
 

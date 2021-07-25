@@ -102,7 +102,7 @@ $ npm install
 
 ### Development mode
 
-```
+```bash
 # Run the app in development mode
 $ npm run dev
 ```

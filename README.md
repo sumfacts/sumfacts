@@ -8,13 +8,30 @@
   <br>
 </h1>
 
-<h4 align="center">A client-only diagram editor built with React and IPFS for building logical arguments.
-  <br>
-  <br>
-  <a href="https://sumfacts.com">SumFacts.com</a>
+<h4 align="center"><a href="https://sumfacts.com">SumFacts.com</a> - a client-only diagram editor built with React and IPFS for building logical arguments.
 </h4>
 
 <p align="center">
+  <img alt="Netlify" src="https://img.shields.io/netlify/e0dfd289-d0eb-49f1-8c8b-7cef447e8060">
+  <a href="http://ipfs.io/">
+    <img alt="IPFS" src="https://img.shields.io/badge/project-IPFS-blue.svg?style=flat-square">
+  </a>
+  <a href="https://www.typescriptlang.org/">
+    <img alt="TypeScript" src="https://img.shields.io/badge/built_with-TypeScript-blue.svg?style=flat-square">
+  </a>
+  <img alt="Netlify" src="https://img.shields.io/netlify/e0dfd289-d0eb-49f1-8c8b-7cef447e8060">
+  <a href="https://github.com/sumfacts/sumfacts/issues">
+    <img alt="Github Issues" src="https://img.shields.io/github/issues/sumfacts/sumfacts.svg">
+  </a>
+<!--   <a href="https://github.com/sumfacts/sumfacts/network">
+    <img alt="Github " src="https://img.shields.io/github/forks/sumfacts/sumfacts.svg">
+  </a> -->
+  <a href="https://github.com/sumfacts/sumfacts/stargazers">
+    <img alt="Github " src="https://img.shields.io/github/stars/sumfacts/sumfacts.svg">
+  </a>
+<!--   <a href="https://github.com/sumfacts/sumfacts/releases">
+    <img alt="Github " src="https://img.shields.io/github/v/release/sumfacts/sumfacts.svg">
+  </a> -->
 </p>
 
 <p align="center">
@@ -31,25 +48,25 @@
 
 Information today is a source of power and the majority of it is owned by relatively few organizations and people.
 
-What the public needs is a way to combine pieces of information together in a way that it is easier to make sense of the whole, and educate each other about important topics. It also needs to be resistant to attack and censorship.
+What the public needs is a way to combine pieces of information together in a way that it is easier to reach consensus and educate each other about important topics. It also needs to be resistant to attack and censorship.
 
 Through collectively examining and discussing opposing ideas we will be able to find truth and clarity on matters.
 
 ## Key Features
 
-* __Shareable Arguments__ - Arguments can be shared by simply copying and pasting a link. This means you can quickly and easily make a point. No need to write lengthy comments anymore. A picture tells a thousand words.
+* 📷 __Shareable Arguments__ - share arguments simply by copying and pasting a link. Quickly and easily make a point. No need to write lengthy comments anymore. A picture tells a thousand words.
 
-* __Decentralized/Open Data__ - All data is stored on the [InterPlanetary File System (IPFS)](https://ipfs.io/) which is a distributed, peer-to-peer network which means there is no central point of failure and nothing to attack. All its data is freely available meaning anybody can access it.
+* 🕸️   __Decentralized/Open Data__ - all data is stored on the [InterPlanetary File System (IPFS)](https://ipfs.io/) - a distributed, peer-to-peer network. There is no central point of failure and nothing to attack. All data is freely available to everybody.
 
-* __Open-Source Client__ - Not only is the data open but this app is completely open-source - anyone can freely download it, run it and audit it. The data can be viewed and edited by anyone with a computer and an internet connection.
+* 📂   __Open-Source Client__ - anyone can freely download this application, run it and audit it. The data can be viewed and edited by anyone with a computer and an internet connection.
 
-* __Standardized and Inter-Linkable Arguments__ - arguments on all topics share the same format and structure. Which means that they can be linked together and webs of information can be made. One argument in turn supporting another and so forth. [Here you will find](https://github.com/sumfacts/sumfacts/blob/master/src/schema/v1/argument.json) the JSON Schema for an Argument in the SumFacts system.
+* 🔗   __Standardized and Inter-Linkable Arguments__ - arguments on all topics share the same format and structure. They can be linked together and webs of information can be made. One argument in turn supports another and so forth. [Here](https://github.com/sumfacts/sumfacts/blob/master/src/schema/v1/argument.json) you will find the JSON Schema for an Argument in the SumFacts system.
 
-* __Export/Import Data__ - Arguments can be completely exported as JSON and downloaded in image format as JPEG. This means you can store important data offline if need be and add diagrams to presentations (for example). And import JSON to recreate arguments stored offline.
+* 📥   __Export/Import Data__ - arguments can be exported as JSON and downloaded as image in JPEG format. Store important data offline and add diagrams to presentations for example. Import JSON to recreate arguments stored offline.
 
-* __Easy-to-use__ - The argument builder is designed to make it as easy as possible to quickly formulate arguments that are clear and stay on-topic. The goal is to give you less time fighting with software and people, more time thinking about difficult concepts.
+* 🕒   __Easy-to-use__ - its quick to formulate arguments that are clear and stay on-topic. Spend less time fighting with software and more time arguing with people.
 
-* __Truth-finding__ - find holes in arguments and see where an argument falls flat. Expose logical flaws more easily - ad hominems, hate-speech, confirmation bias, etc...
+* 👼   __Truth-finding__ - find holes in arguments and see where an argument falls flat. Expose logical flaws more easily - ad hominems, hate-speech, confirmation bias, etc...
 
 
 ## How To Use
@@ -57,8 +74,6 @@ Through collectively examining and discussing opposing ideas we will be able to 
 ### Official website
 
 The easiest way to use SumFacts is at the official website: **[SumFacts.com](https://sumfacts.com)**! 🤷‍♂️
-
-&nbsp;&middot;&nbsp;&nbsp;&middot;&nbsp;&nbsp;&middot;&nbsp;
 
 ### Running locally
 

@@ -1,7 +1,7 @@
 <h1 align="center">
   <br>
   <a href="https://sumfacts.com">
-    <img src="https://raw.githubusercontent.com/sumfacts/sumfacts/master/public/logo-large.png" alt="SumFacts" width="200">
+    <img src="https://github.com/sumfacts/sumfacts/blob/master/public/logo-large.png?raw=true" alt="SumFacts" width="200">
   </a>
   <br>
   SumFacts
@@ -11,9 +11,6 @@
 <h4 align="center">A serverless diagram editor built with React and IPFS specifically designed for building logical arguments. Visit <a href="https://sumfacts.com">SumFacts.com</a> to see the official live version.</h4>
 
 <p align="center">
-  <a href="https://www.paypal.me/AmitMerchant">
-    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
-  </a>
 </p>
 
 <p align="center">
@@ -25,7 +22,7 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](https://raw.githubusercontent.com/sumfacts/sumfacts/master/public/about-banner.png)
+![https://github.com/sumfacts/sumfacts/blob/master/public/about-banner.png?raw=true](https://github.com/sumfacts/sumfacts/blob/master/public/about-banner.png?raw=true)
 
 ## Motivation
 

@@ -6,7 +6,7 @@ import { MainContext } from '../context';
 // TODO error handling
 export const useIpfs = () => {
   const { context, setContext } = useContext(MainContext);
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(Boolean(context.ipfs));
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -21,11 +21,11 @@ export const useIpfs = () => {
   }, [context.ipfs, setContext]);
 
   const connect = useCallback(async () => {
+    setReady(true);
     try {
       console.time('IPFS Started');
       const ipfs = await Ipfs.create(); // initialise IPFS daemon
       setContext({ ipfs });
-      setReady(true);
       console.timeEnd('IPFS Started');
     } catch (error) {
       console.error('IPFS init error:', error);

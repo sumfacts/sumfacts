@@ -8,7 +8,9 @@
   <br>
 </h1>
 
-<h4 align="center">A serverless diagram editor built with React and IPFS specifically designed for building logical arguments. Visit <a href="https://sumfacts.com">SumFacts.com</a> to see the official live version.</h4>
+<h4 align="center">A serverless diagram editor built with React and IPFS specifically designed for building logical arguments.
+  <br>
+  Visit <a href="https://sumfacts.com">SumFacts.com</a> to see the official live version.</h4>
 
 <p align="center">
 </p>

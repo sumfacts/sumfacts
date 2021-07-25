@@ -54,19 +54,19 @@ This system needs to be resistant to attack and censorship.
 
 ## Key Features
 
+* 🕒 __Easy-to-use__ - it's quick to formulate arguments that are clear and stay on-topic. Spend less time fighting with software and more time arguing with people.
+
 * 📷 __Shareable Arguments__ - share arguments simply by copying and pasting a link. Quickly and easily make a point. No need to write lengthy comments anymore. A picture tells a thousand words.
 
-* 🕸️   __Decentralized/Open Data__ - all data is stored on the [InterPlanetary File System (IPFS)](https://ipfs.io/) - a distributed, peer-to-peer network. There is no central point of failure and nothing to attack. All data is freely available to everybody.
+* 🕵️‍♂️ __Truth-finding__ - find holes in arguments and see where an argument falls flat. Expose logical flaws more easily - ad hominems, hate-speech, confirmation bias, etc...
 
-* 📂   __Open-Source Client__ - anyone can freely download this application, run it and audit it. The data can be viewed and edited by anyone with a computer and an internet connection.
+* 🕸️ __Decentralized/Open Data__ - all data is stored on the [InterPlanetary File System (IPFS)](https://ipfs.io/) - a distributed, peer-to-peer network. There is no central point of failure and nothing to attack. All data is freely available to everybody.
 
-* 🔗   __Standardized and Inter-Linkable Arguments__ - arguments on all topics share the same format and structure. They can be linked together and webs of information can be made. One argument in turn supports another and so forth. [Here](https://github.com/sumfacts/sumfacts/blob/master/src/schema/v1/argument.json) you will find the JSON Schema for an Argument in the SumFacts system.
+* 📂 __Open-Source Client__ - anyone can freely download this application, run it and audit it. The data can be viewed and edited by anyone with a computer and an internet connection.
 
-* 📥   __Export/Import Data__ - arguments can be exported as JSON and downloaded as image in JPEG format. Store important data offline and add diagrams to presentations for example. Import JSON to recreate arguments stored offline.
+* 🔗 __Standardized and Inter-Linkable Arguments__ - arguments on all topics share the same format and structure. They can be linked together and webs of information can be made. One argument in turn supports another and so forth. [Here](https://github.com/sumfacts/sumfacts/blob/master/src/schema/v1/argument.json) you will find the JSON Schema for an Argument in the SumFacts system.
 
-* 🕒   __Easy-to-use__ - it's quick to formulate arguments that are clear and stay on-topic. Spend less time fighting with software and more time arguing with people.
-
-* 👼   __Truth-finding__ - find holes in arguments and see where an argument falls flat. Expose logical flaws more easily - ad hominems, hate-speech, confirmation bias, etc...
+* 📥 __Export/Import Data__ - arguments can be exported as JSON and downloaded as image in JPEG format. Store important data offline and add diagrams to presentations for example. Import JSON to recreate arguments stored offline.
 
 
 ## How To Use

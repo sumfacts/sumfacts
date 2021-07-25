@@ -66,7 +66,7 @@ export const EditorPage: FC<RouteComponentProps<{ cid?: string }>> = ({ match })
       const { cid } = match.params;
       if (!cid || cid === currentCidRef.current || !ready) return;
       try {
-        const argument = await receive(cid);
+        const argument: any = await receive(cid);
         if (argument) {
           setArgument(JSON.parse(argument));
         }

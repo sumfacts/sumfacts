@@ -1,7 +1,6 @@
 {
   "env": {
-    "ROOT_URL": "http://localhost:3000",
-    "ROOT_API_URL": "http://localhost:3001"
+    "ROOT_URL": "http://localhost:3000"
   },
   "defaultCommandTimeout": 15000
 }

@@ -6,7 +6,7 @@ import { MainContext } from '../context';
 // TODO error handling
 export const useIpfs = () => {
   const { context, setContext } = useContext(MainContext);
-  const [ready, setReady] = useState(Boolean(context.ipfs));
+  const [hasStartedConnecting, setHasStartedConnecting] = useState(Boolean(context.ipfs));
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -15,16 +15,16 @@ export const useIpfs = () => {
         console.log('Stopping IPFS');
         context.ipfs?.stop().catch((error: any) => console.error(error));
         setContext({ ipfs: null });
-        setReady(false);
+        setHasStartedConnecting(false);
       }
     };
   }, [context.ipfs, setContext]);
 
   const connect = useCallback(async () => {
-    setReady(true);
+    setHasStartedConnecting(true);
     try {
       console.time('IPFS Started');
-      const ipfs = await Ipfs.create(); // initialise IPFS daemon
+      const ipfs = await Ipfs.create({ repo: 'sumfacts' }); // initialise IPFS daemon
       setContext({ ipfs });
       console.timeEnd('IPFS Started');
     } catch (error) {
@@ -32,11 +32,11 @@ export const useIpfs = () => {
       setContext({ ipfs: null });
       setError(error);
     }
-  }, [setReady, setContext, setError]);
+  }, [setHasStartedConnecting, setContext, setError]);
 
   const init = useCallback(async () => {
-    if (!ready) connect();
-  }, [ready, connect]);
+    if (!hasStartedConnecting) await connect();
+  }, [hasStartedConnecting, connect]);
 
   const send = useCallback(async (data) => {
     if (!context.ipfs) {
@@ -54,7 +54,7 @@ export const useIpfs = () => {
       return;
     }
 
-    const stream = await context.ipfs.cat(cid)
+    const stream = await context.ipfs.cat(cid);
 
     let data = '';
 
@@ -66,5 +66,5 @@ export const useIpfs = () => {
     return data;
   }, [context.ipfs]);
 
-  return { init, send, receive, ready, error }
+  return { init, send, receive, ready: Boolean(context.ipfs), error }
 };

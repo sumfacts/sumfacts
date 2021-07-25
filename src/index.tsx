@@ -1,3 +1,4 @@
+import "core-js/modules/es7.symbol.async-iterator";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';

@@ -9,14 +9,11 @@ import {
   Col,
 } from 'antd';
 import {
-  GithubOutlined,
   ThunderboltOutlined,
 } from '@ant-design/icons';
-import { noop } from 'lodash';
 
 import './About.component.scss';
 import { ForceGraph } from './ForceGraph.component';
-import { COLORS } from '../constants';
 
 const { Title, Text } = Typography;
 

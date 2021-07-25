@@ -1,5 +1,5 @@
 import { useMemo, useRef, useEffect, useState, FC, useCallback } from 'react';
-import { message, Button, Space, Alert, Upload, Popconfirm } from "antd";
+import { message, Button, Space, Upload, Popconfirm } from "antd";
 import {
   DownOutlined,
   BranchesOutlined,
@@ -53,7 +53,7 @@ export const EditorPage: FC<RouteComponentProps<{ cid?: string }>> = ({ match })
 
   useEffect(() => {
     init();
-  }, []);
+  });
 
   const searchQuery = useMemo(() => parse(search), [search])
 
@@ -77,11 +77,11 @@ export const EditorPage: FC<RouteComponentProps<{ cid?: string }>> = ({ match })
       currentCidRef.current = cid;
     };
     handler();
-  }, [ready]);
+  }, [ready, match.params, receive]);
 
   const handleCloseAbout = useCallback(async () => {
     push(pathname);
-  }, [showAbout, setShowAbout, search]);
+  }, [pathname, push]);
 
   const handleGetArgument = useCallback(async (saveImage?: boolean) => {
     if (!flowchartRef.current) return;
@@ -91,7 +91,7 @@ export const EditorPage: FC<RouteComponentProps<{ cid?: string }>> = ({ match })
     } else {
       return argument;
     }
-  }, [flowchartRef.current]);
+  }, []);
 
   const handleSave = useCallback(async () => {
     const argument = await handleGetArgument();
@@ -135,10 +135,8 @@ export const EditorPage: FC<RouteComponentProps<{ cid?: string }>> = ({ match })
             <Button
               icon={<UpOutlined />}
               size="small"
-              // onClick={handleExport}
             >
               Import
-              {/* <input type="file"  hidden /> */}
             </Button>
           </Upload>
           <Button

@@ -76,6 +76,17 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
   const instanceRef = useRef<any>({});
   const containerRef = useRef<any>();
 
+  const handleUpdateElement = useCallback((elementToUpdate) => {
+    setElements((elements) =>
+      elements.map((element) => {
+        if (element.id === elementToUpdate.id){
+          return merge({}, element, elementToUpdate);
+        }
+        return element;
+      })
+    );
+  }, [setElements]);
+
   const getDefaultNodeProps = useCallback((element: any) => {
     const id = element.id || nanoid();
     return merge(
@@ -118,13 +129,13 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
             )
           },
           onRemove: () => {
-            setElements(() => elements.filter((element) => element.id !== id));
+            setElements((els) => els.filter((element) => element.id !== id));
           },
         },
       },
       element
     );
-  }, []);
+  }, [handleUpdateElement]);
 
   const getDefaultEdgeProps = useCallback((element) =>
     merge(
@@ -142,25 +153,14 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
         getDefaultNodeProps(element)
     );
     setElements(() => newElements);
-  }, [argument]);
-
-  const handleUpdateElement = useCallback((elementToUpdate) => {
-    setElements((elements) =>
-      elements.map((element) => {
-        if (element.id === elementToUpdate.id){
-          return merge({}, element, elementToUpdate);
-        }
-        return element;
-      })
-    );
-  }, [setElements]);
+  }, [argument, getDefaultEdgeProps, getDefaultNodeProps]);
 
   const handleLoad = useCallback((reactFlowInstance) => {
     instanceRef.current = reactFlowInstance;
     if (elements.length) {
       setTimeout(() => {reactFlowInstance.fitView()}, 500);
     }
-  }, []);
+  }, [elements.length]);
 
   const handlePaneClick = useCallback(async (event) => {
     const { target, clientX, clientY } = event;
@@ -215,7 +215,7 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
       position,
     };
     setTimeout(() => setElements(() => [...elements, newNode]));
-  }, [elements, setElements]);
+  }, [elements, setElements, handleUpdateElement]);
 
   const handleChangeEdgeType = useCallback((edge) => {
     setElements((els) =>
@@ -237,13 +237,13 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
       return element;
     }));
 
-  }, [elements, setElements]);
+  }, [setElements]);
 
   const handleElementClick = useCallback((event, element) => {
     if (isEdge(element)) {
       handleChangeEdgeType(element);
     }
-  }, []);
+  }, [handleChangeEdgeType]);
 
   const handleElementDoubleClick = useCallback((event, element) => {
     event.stopPropagation();
@@ -312,7 +312,7 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
 
       return JSON.stringify(exportData, null, 2);
     },
-  }), [instanceRef.current, onChange]);
+  }), [argument.cid]);
 
   return (
     <div

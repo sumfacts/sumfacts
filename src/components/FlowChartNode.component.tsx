@@ -48,7 +48,7 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
   const handleChange = useCallback((event) => {
     setValue(event.target.value);
     data.onChange(event);
-  }, []);
+  }, [data]);
 
   const handleKeyUp = useCallback((event) => {
     if (event.keyCode === KEYS.BACKSPACE) {

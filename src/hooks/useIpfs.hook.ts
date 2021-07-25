@@ -1,16 +1,11 @@
 import Ipfs from 'ipfs-core';
-import { useContext, useCallback, useRef, useState, useEffect } from 'react';
+import { useContext, useCallback, useState, useEffect } from 'react';
 
 import { MainContext } from '../context';
 
-// declare var Ipfs: any;
-// let ipfs: any = null;
-
 // TODO error handling
 export const useIpfs = () => {
-  // initialise state variables, React hooks
   const { context, setContext } = useContext(MainContext);
-  // const [ipfs, setIpfs] = useState<any>(null);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState(null);
 
@@ -23,7 +18,7 @@ export const useIpfs = () => {
         setReady(false);
       }
     };
-  }, []);
+  }, [context.ipfs, setContext]);
 
   const connect = useCallback(async () => {
     try {
@@ -37,7 +32,7 @@ export const useIpfs = () => {
       setContext({ ipfs: null });
       setError(error);
     }
-  }, [setReady, context.ipfs, setContext, setError]);
+  }, [setReady, setContext, setError]);
 
   const init = useCallback(async () => {
     if (!ready) connect();

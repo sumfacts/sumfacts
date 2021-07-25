@@ -60,8 +60,12 @@ export const useIpfs = () => {
     let data = '';
 
     for await (const chunk of stream) {
-      const decodedChunk = new TextDecoder().decode(chunk);
-      data += decodedChunk;
+      try {
+        const decodedChunk = new TextDecoder().decode(chunk);
+        data += decodedChunk;
+      } catch (error) {
+        console.error(error);
+      }
     }
 
     return data;

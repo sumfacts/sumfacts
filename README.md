@@ -1,14 +1,14 @@
 <h1 align="center">
   <br>
   <a href="https://sumfacts.com">
-    <img src="https://raw.githubusercontent.com/amitmerchant1990/electron-markdownify/master/app/img/markdownify.png" alt="SumFacts" width="200">
+    <img src="https://raw.githubusercontent.com/sumfacts/sumfacts/master/src/public/logo-large.png" alt="SumFacts" width="200">
   </a>
   <br>
   SumFacts
   <br>
 </h1>
 
-<h4 align="center">A serverless argument diagram editor built with React and IPFS. Visit <a href="https://sumfacts.com">SumFacts.com</a> to see the official live version.</h4>
+<h4 align="center">A serverless diagram editor built with React and IPFS specifically designed for building logical arguments. Visit <a href="https://sumfacts.com">SumFacts.com</a> to see the official live version.</h4>
 
 <p align="center">
   <a href="https://www.paypal.me/AmitMerchant">
@@ -25,13 +25,17 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](/public/about-banner.png?raw=true)
+![screenshot](https://raw.githubusercontent.com/sumfacts/sumfacts/master/src/public/about-banner.png)
 
 ## Motivation
 
 Information today is a source of power and the majority of it is owned by relatively few organizations and people.
 
-What we need, as the public, is a way to combine pieces of information together in a way that it is easier to make sense of the whole, reach consensus and educate each other about important topics. We need to be able to collectively sum up the facts.
+What the public needs is a way to combine pieces of information together in a way that it is easier to make sense of the whole, reach consensus and educate each other about important topics.
+
+Through collectively examining and discussing opposing ideas we will be able to find truth and clarity on matters.
+
+---
 
 ## Key Features
 
@@ -47,12 +51,15 @@ What we need, as the public, is a way to combine pieces of information together 
 
 * __Easy-to-use__ - The argument builder is designed to make it as easy as possible to quickly formulate arguments. The goal is to give you less time fighting with software and more time thinking about difficult concepts and ultimately finding truth.
 
+---
+
 ## How To Use
 
 ### Official website
 
 The easiest way to use SumFacts is at the official website: **[SumFacts.com](https://sumfacts.com)**! 🤷‍♂️
 
+&nbsp;&middot;&nbsp;&nbsp;&middot;&nbsp;&nbsp;&middot;&nbsp;
 
 ### Running locally
 
@@ -81,12 +88,7 @@ $ npm build
 $ npm start
 ```
 
-<!-- Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt. -->
-
-
-<!-- ## Download
-
-You can [download](https://github.com//releases/tag/v1) the latest installable version of SumFacts for Windows, macOS and Linux. -->
+---
 
 ## Credits
 
@@ -102,6 +104,8 @@ This software uses the following open source packages:
 - [React Flow](https://reactflow.dev/)
 - [React Force Graph](https://github.com/vasturiano/react-force-graph)
 - [SASS](https://sass-lang.com/)
+
+---
 
 ## License
 

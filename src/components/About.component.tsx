@@ -13,7 +13,6 @@ import {
 } from '@ant-design/icons';
 
 import './About.component.scss';
-import { ForceGraph } from './ForceGraph.component';
 
 const { Title, Text } = Typography;
 
@@ -83,18 +82,11 @@ export const About: FC<{ onClose: () => void }> = ({ onClose }): JSX.Element => 
           </Col>
         </Row>
 
-        <div style={{ position: 'relative', background: 'ghostwhite' }}>
-          <div style={{ position: 'absolute', display: 'flex', justifyContent: 'center', top: 290, width: '100%' }}>
-            <Title
-              level={1}
-              style={{ textAlign: 'center', opacity: 0.2 }}
-            >
-              and whole arguments can be linked together
-            </Title>
-          </div>
-
-          <ForceGraph />
-        </div>
+        <Image
+          width="100%"
+          src="/network.gif"
+          preview={false}
+        />
 
         <div style={{ display: 'flex', justifyContent: 'center', padding: '100px 0' }}>
           <Space direction="vertical" style={{ textAlign: 'center' }}>

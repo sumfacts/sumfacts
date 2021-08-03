@@ -48,7 +48,7 @@
 
 ## Motivation
 
-This is a tool to be used by those who wish to spread information that others might not want to be known. The information can never be attacked because it is distributed. The client is open-source so anyone can access and add to the data. And it is specifically designed for building logical arguments with the aim of educationg and winning debates.
+This is a tool to be used by those who wish to spread information that others might not want to be known. The information can never be attacked because it is distributed. The client is open-source so anyone can access and add to the data. And it is specifically designed for building logical arguments with the aim of educating others and winning arguments.
 
 ## Features
 

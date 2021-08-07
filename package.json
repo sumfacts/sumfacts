@@ -21,6 +21,7 @@
     "core-js": "^3.15.2",
     "dom-to-image": "^2.6.0",
     "ipfs-core": "^0.8.0",
+    "ipfs-http-client": "^51.0.1",
     "js-file-download": "^0.4.12",
     "lodash": "^4.17.21",
     "metascraper": "^5.22.11",

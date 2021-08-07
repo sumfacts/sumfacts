@@ -23,7 +23,7 @@ export const FlowChartEdge = ({
   labelBgPadding,
   labelBgBorderRadius,
 }: any) => {
-  const edgePath = getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
+  const edgePath = getBezierPath({ sourceX, sourceY, sourcePosition, targetX: targetX + 10, targetY, targetPosition });
   const markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
 
   const edgeCenter = getEdgeCenter({

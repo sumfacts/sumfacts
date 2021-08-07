@@ -3,7 +3,7 @@ import { findIndex, pick, merge } from 'lodash';
 import { Typography } from 'antd';
 import { nanoid } from 'nanoid';
 import ReactFlow, {
-  Node,
+  // Node,
   removeElements,
   addEdge,
   Controls,
@@ -15,7 +15,7 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import domtoimage from "dom-to-image";
 
-import { scraper } from '../scraper';
+// import { scraper } from '../scraper';
 import { isValidUrl } from '../util';
 import { COLORS, VERSION } from '../constants';
 import { FlowChartEdge } from './FlowChartEdge.component';
@@ -104,24 +104,25 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
                   const { value } = event.target;
                   element.data.label = value;
                   if (isValidUrl(value)) {
-                    fetch(value)
-                      .then(response => response.text())
-                      .then(html =>
-                        scraper({
-                          url: value,
-                          html,
-                          validateUrl: true,
-                        })
-                      )
-                      .then(meta => {
-                        handleUpdateElement({
-                          id,
-                          data: {
-                            meta,
-                            type: 'link',
-                          }
-                        });
-                      });
+                    element.data.type = 'link';
+                    // fetch(value)
+                    //   .then(response => response.text())
+                    //   .then(html =>
+                    //     scraper({
+                    //       url: value,
+                    //       html,
+                    //       validateUrl: true,
+                    //     })
+                    //   )
+                    //   .then(meta => {
+                    //     handleUpdateElement({
+                    //       id,
+                    //       data: {
+                    //         meta,
+                    //         type: 'link',
+                    //       }
+                    //     });
+                    //   });
                   }
                 }
                 return element;
@@ -135,7 +136,7 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
       },
       element
     );
-  }, [handleUpdateElement]);
+  }, []);
 
   const getDefaultEdgeProps = useCallback((element) =>
     merge(
@@ -162,7 +163,7 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
     }
   }, [elements.length]);
 
-  const handlePaneClick = useCallback(async (event) => {
+  const handlePaneDoubleClick = useCallback(async (event) => {
     const { target, clientX, clientY } = event;
     const rect = target.getBoundingClientRect();
     const position = instanceRef.current.project({
@@ -170,52 +171,12 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
       y: clientY - rect.top,
     });
     const id: any = nanoid();
-    const newNode: Node = {
+    const newNode = getDefaultNodeProps({
       id,
-      type: 'custom',
-      data: {
-        label: '',
-        type: 'text',
-        onChange: (event: any) => {
-          setElements((els) =>
-            els.map((element) => {
-              if (element.id === id) {
-                const { value } = event.target;
-                element.data.label = value;
-                if (isValidUrl(value)) {
-                  fetch(value)
-                    .then(response => response.text())
-                    .then(html =>
-                      scraper({
-                        url: value,
-                        html,
-                        validateUrl: true,
-                      })
-                    )
-                    .then(meta => {
-                      handleUpdateElement({
-                        id,
-                        data: {
-                          meta,
-                          type: 'link',
-                        }
-                      });
-                    });
-                }
-              }
-              return element;
-            })
-          )
-        },
-        onRemove: () => {
-          setElements(() => elements.filter((element) => element.id !== id));
-        },
-        autoFocus: true,
-      },
       position,
-    };
+    });
     setTimeout(() => setElements(() => [...elements, newNode]));
-  }, [elements, setElements, handleUpdateElement]);
+  }, [elements, setElements, getDefaultNodeProps]);
 
   const handleChangeEdgeType = useCallback((edge) => {
     setElements((els) =>
@@ -248,11 +209,14 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
   const handleElementDoubleClick = useCallback((event, element) => {
     event.stopPropagation();
     if (isNode(element)) {
-      const { id, data: { type, meta } } = element;
+      const { id, data: { type, label } } = element;
       const currentTypeIndex = findIndex(NODE_TYPES, (nodeType) => nodeType === type);
       let nextIndex = (currentTypeIndex > 0 ? currentTypeIndex : nodeTypeCount) - 1;
       let nextType = NODE_TYPES[nextIndex];
-      if (nextType === 'link' && !meta) {
+      if (nextType === 'text' && isValidUrl(label)) {
+        nextType = 'link';
+      }
+      if (nextType === 'link' && !isValidUrl(label)) {
         nextIndex = (nextIndex > 0 ? nextIndex : nodeTypeCount) - 1;
         nextType = NODE_TYPES[nextIndex];
       }
@@ -310,14 +274,14 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
         exportData.clientUri = `/cid/${argument.cid}`;
       }
 
-      return JSON.stringify(exportData, null, 2);
+      return exportData;
     },
   }), [argument.cid]);
 
   return (
     <div
       style={{ flex: 1, position: 'relative', background: 'ghostwhite' }}
-      onDoubleClick={handlePaneClick}
+      onDoubleClick={handlePaneDoubleClick}
       ref={containerRef}
     >
       {!elements.length &&

@@ -1,5 +1,9 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { Tag, Avatar, Typography } from 'antd';
+import {
+  Tag,
+  // Avatar,
+  Typography
+} from 'antd';
 import {
   Handle,
   Position,
@@ -8,12 +12,14 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import { COLORS, KEYS } from '../constants';
 
-const HANDLE_SIZE = 12;
+const HANDLE_SIZE = 24;
 const HANDLE_COLOR = COLORS.DARK_GREY;
 
 const tagStyle = {
   margin: 0,
   zIndex: 2,
+  width: HANDLE_SIZE * 2.1,
+  height: HANDLE_SIZE,
   background: HANDLE_COLOR,
   borderColor: HANDLE_COLOR,
   color: 'white',
@@ -75,8 +81,9 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
         style={{
           ...handleStyle,
           right: -HANDLE_SIZE/2,
-          height: isAndOrOr ? HANDLE_SIZE : HANDLE_SIZE * 3,
-          background: isAndOrOr ? HANDLE_COLOR : 'white',
+          height: isAndOrOr ? HANDLE_SIZE : HANDLE_SIZE * 1.4,
+          background: 'white',
+          zIndex: isAndOrOr ? 9 : undefined,
         }}
       />
 
@@ -101,9 +108,16 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
           style={{
             ...nodeStyle,
             display: 'flex',
+            textOverflow: 'ellipsis',
           }}
         >
-          <div style={{ width: 90 }}>
+          <a
+            href={data.label}
+            target="_blank" rel="noreferrer"
+          >
+            <Typography.Text ellipsis italic style={{ width: 180 }}>{data.label}</Typography.Text>
+          </a>
+          {/* <div style={{ width: 90 }}>
             <Avatar shape="square" src={data.meta.image} />
           </div>
           <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
@@ -111,7 +125,7 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
               <Typography.Text type="secondary">{data.meta.title}</Typography.Text>
             </div>
             <Typography.Text strong style={{ fontSize: '0.9em' }}>{data.meta.publisher}</Typography.Text>
-          </div>
+          </div> */}
         </div>
       }
 

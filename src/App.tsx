@@ -15,7 +15,7 @@ export const App: React.FC = () => {
     <MainContext.Provider value={{ context, setContext }}>
       <Switch>
         <Route exact={true} path="/" component={EditorPage} />
-        <Route exact={true} path="/cid/:cid" component={EditorPage} />
+        <Route exact={true} path="/ipns/:id" component={EditorPage} />
       </Switch>
     </MainContext.Provider>
   );

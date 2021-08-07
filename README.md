@@ -138,3 +138,10 @@ This software uses the following open source packages:
 The MIT License (MIT)
 
 Copyright © 2021 Finn Fitzsimons
+
+
+<!-- 
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"localhost:3000\"]"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods "[\"PUT\", \"GET\", \"POST\"]"
+ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials "[\"true\"]" 
+-->

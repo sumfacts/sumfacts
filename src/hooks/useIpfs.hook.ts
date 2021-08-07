@@ -1,5 +1,8 @@
-import Ipfs from 'ipfs-core';
+// import Ipfs from 'ipfs-core';
+ import Ipfs from 'ipfs-http-client';
 import { useContext, useCallback, useState, useEffect } from 'react';
+import { notification } from 'antd';
+import { nanoid } from 'nanoid';
 
 import { MainContext } from '../context';
 
@@ -12,7 +15,9 @@ export const useIpfs = () => {
   useEffect(() => {
     return function cleanup() {
       if (context.ipfs?.stop) {
-        console.log('Stopping IPFS');
+        notification.info({
+          message: 'Stopping IPFS',
+        });
         context.ipfs?.stop().catch((error: any) => console.error(error));
         setContext({ ipfs: null });
         setHasStartedConnecting(false);
@@ -24,7 +29,9 @@ export const useIpfs = () => {
     setHasStartedConnecting(true);
     try {
       console.time('IPFS Started');
-      const ipfs = await Ipfs.create({ repo: 'sumfacts' }); // initialise IPFS daemon
+      // const ipfs = await Ipfs.create({ repo: 'sumfacts' });
+      const ipfs = Ipfs.create({ url: process.env.REACT_APP_IPFS_API_URL || 'http://localhost:5001' });
+
       setContext({ ipfs });
       console.timeEnd('IPFS Started');
     } catch (error) {
@@ -38,38 +45,95 @@ export const useIpfs = () => {
     if (!hasStartedConnecting) await connect();
   }, [hasStartedConnecting, connect]);
 
-  const send = useCallback(async (data) => {
+  const create = useCallback(async (data) => {
     if (!context.ipfs) {
-      console.log('error sending');
-      return;
+      notification.error({
+        message: 'no ipfs',
+      });
+      return {};
     }
-    const result = await context.ipfs.add(data);
-    const cid = result.cid.toString();
-    return cid;
+    const block = await context.ipfs.add(JSON.stringify(data, null, 2));
+    const cid = block.cid.toString();
+    const secret = nanoid();
+
+    const options = {
+      resolve: true,
+      // lifetime: '24h',
+      // ttl: '10s',
+      key: secret,
+      // allowOffline: true
+    }
+
+    await context.ipfs.key.gen(secret, { type: 'rsa', size: 2048 });
+    const result = await context.ipfs.name.publish(cid, options);
+
+    const { name } = result;
+
+    notification.success({
+      message: 'Created argument.',
+    });
+
+    return { name, secret };
   }, [context.ipfs]);
 
-  const receive = useCallback(async (cid) => {
+  const update = useCallback(async (secret, data) => {
     if (!context.ipfs) {
-      console.log('error receiving');
+      notification.error({
+        message: 'no ipfs',
+      });
+      return;
+    }
+    const block = await context.ipfs.add(JSON.stringify(data, null, 2));
+    const cid = block.cid.toString();
+
+    const options = {
+      resolve: true,
+      // lifetime: '24h',
+      // ttl: '10s',
+      key: secret,
+      // allowOffline: true,
+    }
+
+    const { id } = await context.ipfs.name.publish(cid, options);
+
+    notification.success({
+      message: 'Updated argument.',
+    });
+
+    return { name: id, secret };
+  }, [context.ipfs]);
+
+  const resolve = useCallback(async (name, onResolve) => {
+    if (!context.ipfs) {
+      notification.error({
+        message: 'no ipfs',
+      });
       return;
     }
 
-    const stream = await context.ipfs.cat(cid);
+    try {
+      for await (const cid of context.ipfs.name.resolve(`/ipns/${name}`)) {
+        const stream = await context.ipfs.cat(cid);
 
-    debugger
-    let data = '';
+        let data = '';
 
-    for await (const chunk of stream) {
-      try {
-        const decodedChunk = new TextDecoder().decode(chunk);
-        data += decodedChunk;
-      } catch (error) {
-        console.error(error);
+        for await (const chunk of stream) {
+          try {
+            const decodedChunk = new TextDecoder().decode(chunk);
+            data += decodedChunk;
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+        onResolve(data ? JSON.parse(data) : null);
       }
+    } catch (error) {
+      notification.error({
+        message: 'Could not find argument.',
+      });
     }
-
-    return data;
   }, [context.ipfs]);
 
-  return { init, send, receive, ready: Boolean(context.ipfs), error }
+  return { init, create, update, resolve, ready: Boolean(context.ipfs), error }
 };

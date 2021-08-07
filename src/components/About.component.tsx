@@ -36,50 +36,51 @@ export const About: FC<{ onClose: () => void }> = ({ onClose }): JSX.Element => 
     >
       <Space size="large" direction="vertical">
 
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '100px 0' }}>
+          <div style={{ maxWidth: 600 }}>
+            <Title level={3} style={{ fontWeight: 400 }}><Text strong>SumFacts.</Text> Create logical arguments as diagrams with an open-source editor. Store them in a secure peer-to-peer network. Share them simply by pasting a link.</Title>
+          </div>
+        </div>
+
         <Image
           width="100%"
           src="/about-banner.png"
           preview={false}
+          style={{ paddingBottom: 100 }}
         />
 
-        <div style={{ display: 'flex', justifyContent: 'center', padding: '100px 0' }}>
-          <div style={{ maxWidth: 600 }}>
-            <Title level={3} style={{ fontWeight: 400 }}><Text strong>SumFacts</Text> is a revolutionary new way of debating topics online. Create arguments untuitively with an open-source editor and store them in a secure peer-to-peer network. Share them simply by pasting a link.</Title>
-          </div>
-        </div>
-
         <Row>
-          <Col md={12} style={{ padding: 50, paddingTop: 0 }}>
+          <Col md={8} style={{ padding: 50 }}>
             <Space direction="vertical" size="middle">
               <Title level={4}>Decentralized</Title>
-              <Text>All data is <Text strong>stored</Text> on the InterPlanetary File System (IPFS) which is a distributed, peer-to-peer network that is invulnerable to attack or censorship. All its data is freely available meaning anybody can <Text strong>access</Text> it.</Text>
+              <Text>All data is <Text strong>stored</Text> on a distributed, peer-to-peer network that can't be attacked or censored. Anybody can access the data at any time.</Text>
               <Button type="ghost" size="small" onClick={handleIpfs}>IPFS</Button>
             </Space>
           </Col>
 
-          <Col md={12} style={{ padding: 50, paddingTop: 0 }}>
+          <Col md={8} style={{ padding: 50 }}>
             <Space direction="vertical" size="middle">
               <Title level={4}>Open-source</Title>
-              <Text>This app you are using is completely open-source - anyone can freely download it, run it and audit it. The data can also be <Text strong>edited</Text> by anyone with a computer and an internet connection.</Text>
+              <Text>This app you are using is completely open-source - anyone can freely download it, run it and audit it. Which means everybody has access to create data in the network.</Text>
               <Button type="ghost" size="small" onClick={handleGithub}>Github</Button>
             </Space>
           </Col>
-        </Row>
-
-        <Row>
-          <Col md={12} style={{ padding: 50, paddingTop: 0 }}>
+          <Col md={8} style={{ padding: 50 }}>
             <Space direction="vertical" size="middle">
               <Title level={4}>Shareable</Title>
               <Text>Arguments can be shared by simply copying and pasting a link. They can also be exported, downloaded (jpeg/json) and imported again.</Text>
             </Space>
           </Col>
 
-          <Col md={12} style={{ padding: 50, paddingTop: 0 }}>
+        </Row>
+
+        <Row>
+          {/* <Col md={8} style={{ padding: 50 }}>
             <Space direction="vertical" size="middle">
               <Title level={4}>Intuitive</Title>
               <Text>The argument builder is designed to make it as easy as possible to quickly formulate arguments. The goal is to give you more time thinking about difficult concepts.</Text>
             </Space>
-          </Col>
+          </Col> */}
         </Row>
 
         <Image

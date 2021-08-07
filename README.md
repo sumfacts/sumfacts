@@ -48,11 +48,7 @@
 
 ## Motivation
 
-The majority of information today is owned by relatively few organizations/people.
-
-We need a system to collectively combine our individual pieces of information together to make sense of the whole. By reaching consensus and educating ourselves about important topics we can be empowered.
-
-In order for this to happen this system also needs to be resistant to attack and censorship so that the truth isn't manipulated and obscured.
+This is a tool to be used by those who wish to spread information that others might not want to be known. The information can never be attacked because it is distributed. The client is open-source so anyone can access and add to the data. And it is specifically designed for building logical arguments with the aim of educating others and winning arguments.
 
 ## Features
 

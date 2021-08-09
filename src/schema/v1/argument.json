@@ -95,7 +95,7 @@
       },
       "zoom": {
           "$id": "#/properties/zoom",
-          "type": "integer",
+          "type": "number",
           "title": "The zoom schema",
           "description": "The initial zoom settings.",
           "default": 0,
@@ -190,7 +190,7 @@
                               "properties": {
                                   "x": {
                                       "$id": "#/properties/elements/items/anyOf/0/properties/position/properties/x",
-                                      "type": "integer",
+                                      "type": "number",
                                       "title": "The x schema",
                                       "description": "The node X position.",
                                       "default": 0,
@@ -200,7 +200,7 @@
                                   },
                                   "y": {
                                       "$id": "#/properties/elements/items/anyOf/0/properties/position/properties/y",
-                                      "type": "integer",
+                                      "type": "number",
                                       "title": "The y schema",
                                       "description": "The node Y position.",
                                       "default": 0,

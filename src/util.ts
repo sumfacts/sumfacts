@@ -24,3 +24,5 @@ export const download = (fileName: string | number, data: any) => {
 export const copy = (data: string) => {
   navigator.clipboard.writeText(data);
 };
+
+export const isMobile = (width: number) => width < 768;

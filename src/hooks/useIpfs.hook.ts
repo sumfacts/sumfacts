@@ -62,6 +62,7 @@ export const useIpfs = () => {
       // ttl: '10s',
       key: secret,
       // allowOffline: true
+      timeout: 5 * 60 * 1000,
     }
 
     await context.ipfs.key.gen(secret, { type: 'rsa', size: 2048 });
@@ -73,7 +74,7 @@ export const useIpfs = () => {
       message: 'Created argument.',
     });
 
-    return { name, secret };
+    return { id: name, secret };
   }, [context.ipfs]);
 
   const update = useCallback(async (secret, data) => {
@@ -92,7 +93,8 @@ export const useIpfs = () => {
       // ttl: '10s',
       key: secret,
       // allowOffline: true,
-    }
+      timeout: 5 * 60 * 1000,
+    };
 
     const { id } = await context.ipfs.name.publish(cid, options);
 
@@ -100,7 +102,7 @@ export const useIpfs = () => {
       message: 'Updated argument.',
     });
 
-    return { name: id, secret };
+    return { id, secret };
   }, [context.ipfs]);
 
   const resolve = useCallback(async (name, onResolve) => {

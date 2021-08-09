@@ -1,9 +1,15 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { notification } from 'antd';
 
 import './App.scss';
 import { EditorPage } from './pages/Editor.page';
 import { MainContext } from './context';
+
+notification.config({
+  placement: 'bottomRight',
+  duration: 3,
+});
 
 export const App: React.FC = () => {
   const [context, updateStateContext] = React.useState({});

@@ -7,8 +7,9 @@
   "default": {},
   "examples": [
       {
-          "cid": "xyz",
-          "clientUri": "/cid/xyz",
+          "id": "k2k4r8o60gnky6eu6xthf4kqy7kutovobvrjpfbn16iajpjp1mwv7j0l",
+          "title": "aliens exist",
+          "permalink": "/ipns/k2k4r8o60gnky6eu6xthf4kqy7kutovobvrjpfbn16iajpjp1mwv7j0l",
           "position": [
               0,
               0
@@ -49,24 +50,34 @@
       "elements"
   ],
   "properties": {
-      "cid": {
-          "$id": "#/properties/cid",
+      "id": {
+          "$id": "#/properties/id",
           "type": "string",
-          "title": "The cid schema",
-          "description": "The IPFS cid.",
+          "title": "The id schema",
+          "description": "The IPNS name",
           "default": "",
           "examples": [
-              "xyz"
+              "k2k4r8o60gnky6eu6xthf4kqy7kutovobvrjpfbn16iajpjp1mwv7j0l"
           ]
       },
-      "clientUri": {
-          "$id": "#/properties/clientUri",
+      "permalink": {
+          "$id": "#/properties/permalink",
           "type": "string",
-          "title": "The clientUri schema",
+          "title": "The permalink schema",
           "description": "The relative URI at which the Argument can be viewed in the SumFacts client.",
           "default": "",
           "examples": [
-              "/cid/xyz"
+              "/ipns/k2k4r8o60gnky6eu6xthf4kqy7kutovobvrjpfbn16iajpjp1mwv7j0l"
+          ]
+      },
+      "title": {
+          "$id": "#/properties/title",
+          "type": "string",
+          "title": "The title schema",
+          "description": "The title of the Argument.",
+          "default": "",
+          "examples": [
+              "aliens exist"
           ]
       },
       "position": {

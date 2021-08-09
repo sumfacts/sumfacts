@@ -60,6 +60,7 @@ const NODE_TYPES = [
   'and',
   'link',
   'text',
+  'argument',
 ];
 
 // const StateListener: React.FC<{ onChange: (exportData: any[]) => void }> = ({ onChange }) => {
@@ -132,11 +133,24 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
           onRemove: () => {
             setElements((els) => els.filter((element) => element.id !== id));
           },
+          onExpand: () => {
+            console.log('expand');
+          },
+          onChangeType: (type: string) => {
+            setElements((els) =>
+              els.map((element) => {
+                if (element.id === id) {
+                  handleUpdateElement({ id, data: { type } });
+                }
+                return element;
+              })
+            )
+          },
         },
       },
       element
     );
-  }, []);
+  }, [handleUpdateElement]);
 
   const getDefaultEdgeProps = useCallback((element) =>
     merge(
@@ -154,7 +168,7 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
         getDefaultNodeProps(element)
     );
     setElements(() => newElements);
-  }, [argument, getDefaultEdgeProps, getDefaultNodeProps]);
+  }, [argument?.elements, getDefaultEdgeProps, getDefaultNodeProps]);
 
   const handleLoad = useCallback((reactFlowInstance) => {
     instanceRef.current = reactFlowInstance;
@@ -208,20 +222,20 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
 
   const handleElementDoubleClick = useCallback((event, element) => {
     event.stopPropagation();
-    if (isNode(element)) {
-      const { id, data: { type, label } } = element;
-      const currentTypeIndex = findIndex(NODE_TYPES, (nodeType) => nodeType === type);
-      let nextIndex = (currentTypeIndex > 0 ? currentTypeIndex : nodeTypeCount) - 1;
-      let nextType = NODE_TYPES[nextIndex];
-      if (nextType === 'text' && isValidUrl(label)) {
-        nextType = 'link';
-      }
-      if (nextType === 'link' && !isValidUrl(label)) {
-        nextIndex = (nextIndex > 0 ? nextIndex : nodeTypeCount) - 1;
-        nextType = NODE_TYPES[nextIndex];
-      }
-      handleUpdateElement({ id, data: { type: nextType } });
-    }
+    // if (isNode(element)) {
+    //   const { id, data: { type, label } } = element;
+    //   const currentTypeIndex = findIndex(NODE_TYPES, (nodeType) => nodeType === type);
+    //   let nextIndex = (currentTypeIndex > 0 ? currentTypeIndex : nodeTypeCount) - 1;
+    //   let nextType = NODE_TYPES[nextIndex];
+    //   if (nextType === 'text' && isValidUrl(label)) {
+    //     nextType = 'link';
+    //   }
+    //   if (nextType === 'link' && !isValidUrl(label)) {
+    //     nextIndex = (nextIndex > 0 ? nextIndex : nodeTypeCount) - 1;
+    //     nextType = NODE_TYPES[nextIndex];
+    //   }
+    //   handleUpdateElement({ id, data: { type: nextType } });
+    // }
   }, [handleUpdateElement]);
 
   const onElementsRemove = useCallback((elementsToRemove) =>
@@ -269,14 +283,9 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
         elements,
       };
 
-      if (argument.cid) {
-        exportData.cid = argument.cid;
-        exportData.clientUri = `/cid/${argument.cid}`;
-      }
-
       return exportData;
     },
-  }), [argument.cid]);
+  }), []);
 
   return (
     <div

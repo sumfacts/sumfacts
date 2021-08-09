@@ -1,5 +1,6 @@
 import { useMemo, useRef, useEffect, useState, FC, useCallback } from 'react';
 import {
+  Tooltip,
   Modal,
   Input,
   Popover,
@@ -23,6 +24,7 @@ import {
   SaveOutlined,
   CopyOutlined,
 } from '@ant-design/icons';
+import ContainerDimensions from 'react-container-dimensions';
 import { RouteComponentProps } from 'react-router';
 import { nanoid } from 'nanoid';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -31,11 +33,13 @@ import Ajv from 'ajv';
 
 import { AppLayout } from '../components/AppLayout.component';
 import { About } from '../components/About.component';
+import { Spin } from '../components/Spin.component';
 import { FlowChart } from '../components/FlowChart.component';
 import { useIpfs } from '../hooks/useIpfs.hook';
 import { download, copy, parse } from '../util';
 import { COLORS } from '../constants';
 import argumentSchema from '../schema/v1/argument.json';
+import { isMobile } from '../util';
 
 const SAVE_IMAGE = true;
 
@@ -44,7 +48,9 @@ const validate = ajv.compile(argumentSchema);
 
 export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }): JSX.Element | null => {
   const [showAbout, setShowAbout] = useState(false);
-  const [argument, setArgument] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [title, setTitle] = useState('');
+  const [initialArgument, setInitialArgument] = useState<any>(null);
   const { create, resolve, update, ready, init /*, initError as ipfsInitError*/ } = useIpfs();
   const { push } = useHistory();
   const currentIdRef = useRef<string | null>(null);
@@ -53,6 +59,12 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
   const [secret, setSecret] = useState('');
   const [secretDialogIsVisible, setSecretDialogIsVisible] = useState(false);
   const [infoDialogIsVisible, setInfoDialogIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(Boolean(match.params.id));
+
+  const handleResetArgument = useCallback((arg: any) => {
+    setInitialArgument(arg);
+    setTitle(arg?.title);
+  }, []);
 
   const handleUpload = useCallback(({ file }: any) => {
     const fileReader = new FileReader();
@@ -62,7 +74,7 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
         const arg = JSON.parse(e.target.result);
         const valid = validate(arg);
         if (!valid) throw new Error('invalid JSON imported');
-        setArgument(arg);
+        handleResetArgument(arg);
       } catch (error) {
         notification.error({
           message: `Problem importing: ${error.message}.`,
@@ -70,7 +82,7 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
         });
       }
     };
-  }, [setArgument]);
+  }, [handleResetArgument]);
 
   useEffect(() => {
     init();
@@ -84,24 +96,30 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
 
   useEffect(() => {
     const handler = async () => {
+      setIsLoading(true);
       if (!match.params.id) {
         currentIdRef.current = null;
-        setArgument('');
+        setIsLoading(false);
+        handleResetArgument(null);
         return;
       }
 
-      if (match.params.id === currentIdRef.current || !ready) return;
+      if (match.params.id === currentIdRef.current || !ready) {
+        setIsLoading(false);
+        return;
+      }
 
       try {
-        await resolve(match.params.id, setArgument);
+        await resolve(match.params.id, handleResetArgument);
       } catch (error) {
         console.log(error);
       }
-      // TODO error handling
+
+      setIsLoading(false);
       currentIdRef.current = match.params.id;
     };
     handler();
-  }, [ready, match.params.id, resolve]);
+  }, [ready, match.params.id, resolve, handleResetArgument]);
 
   const handleCloseAbout = useCallback(async () => {
     push(pathname);
@@ -125,10 +143,23 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
 
   const handleGetArgument = useCallback(async (saveImage?: boolean) => {
     if (!flowchartRef.current) return;
-    return await flowchartRef.current.toObject(saveImage);
-  }, []);
+    const currentArgument = await flowchartRef.current.toObject(saveImage);
+    const result = {
+      ...currentArgument,
+      title,
+    };
+
+    const { id } = match.params;
+    if (id) {
+      result.id = id;
+      result.permalink = `/ipns/${id}`;
+    }
+
+    return result;
+  }, [title, match.params]);
 
   const handleUpdate = useCallback(async () => {
+    setIsSaving(true);
     const argument = await handleGetArgument();
     if (!argument?.elements?.length) {
       notification.error({
@@ -145,10 +176,12 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
       return;
     }
     await update(secret, argument);
+    setIsSaving(true);
     handleCloseSecretDialog();
   }, [secret, handleGetArgument, update, handleCloseSecretDialog]);
 
   const handleSave = useCallback(async () => {
+    setIsSaving(true);
     const argument = await handleGetArgument();
     if (!argument?.elements?.length) {
       notification.error({
@@ -165,16 +198,18 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
       }
       return;
     }
-    const { name, secret: newSecret } = await create(argument);
-    if (!name || !newSecret) return;
-    const permalink = `/ipns/${name}`;
+    const { id, secret: newSecret } = await create(argument);
+    if (!id || !newSecret) return;
+    const permalink = `/ipns/${id}`;
     setInfoDialogIsVisible(true);
     setSecret(newSecret);
-    download(`sumfacts_${name}_secret_info`, { permalink, secret: newSecret });
+    setIsSaving(false);
+    download(`sumfacts_${id}_secret_info`, { permalink, secret: newSecret, id });
     push(permalink);
   }, [handleGetArgument, create, match.params.id, secret, push, handleUpdate]);
 
   const handleFork = useCallback(async () => {
+    setIsSaving(true);
     const argument = await handleGetArgument();
     if (!match.params.id) {
       notification.error({
@@ -183,8 +218,10 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
       });
       return;
     }
-    const newId = await create(argument);
-    const newTab = window.open(`/id/${newId}`, '_blank');
+    delete argument.id;
+    const { id: newId } = await create(argument);
+    setIsSaving(false);
+    const newTab = window.open(`/ipns/${newId}`, '_blank');
     if (newTab) newTab.focus();
   }, [handleGetArgument, create, match.params.id]);
 
@@ -211,9 +248,9 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
     if (newTab) newTab.focus();
   }, []);
 
-  // const handleCloseError = useCallback(() => {
-  //   setErrorHidden(true);
-  // }, []);
+  const handleUpdateTitle = useCallback((event: any) => {
+    setTitle(event.target.value);
+  }, []);
 
   const handleCopySecret = useCallback(() => {
     copy(secret);
@@ -224,208 +261,261 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
   }, [secret]);
 
   return (
-    <AppLayout
-      headerContent={
-        <Space>
-          {!match.params.id && <Popconfirm
-            placement="bottomRight"
-            title="Are you sure?"
-            onConfirm={handleSave}
-            okText="ok"
-            cancelText="cancel"
-            icon={<QuestionCircleOutlined style={{ color: COLORS.DARK_GREY }} />}
-            okButtonProps={{ type: 'ghost' }}
-          >
-            <Button
-              icon={<SaveOutlined />}
-              size="small"
-            >
-              save
-            </Button>
-          </Popconfirm>}
+    <ContainerDimensions>
+      {({ width }) => {
+        const mobile = isMobile(width);
+        return (
+          <AppLayout
+            headerContent={
+              <Space>
+                {isLoading && <Tooltip title="loading argument"><Spin /></Tooltip>}
 
-          {match.params.id && <Button
-            icon={<SaveOutlined />}
-            size="small"
-            onClick={handleSave}
-          >
-            update
-          </Button>}
+                <div style={{ flexGrow: 1 }}>
+                  <Input
+                    size="small"
+                    placeholder="enter title"
+                    value={title}
+                    onChange={handleUpdateTitle}
+                    style={{ width: '100%' }}
+                    disabled={isSaving || isLoading}
+                  />
+                </div>
 
-          <Button
-            icon={<PlusOutlined />}
-            size="small"
-            onClick={handleNew}
-          >
-            new
-          </Button>
-
-          <Popover
-            placement="bottomRight"
-            content={
-              <List>
-                <List.Item style={{ cursor: 'pointer' }}>
-                  <Upload
-                    onChange={handleUpload}
-                    showUploadList={false}
+                {!match.params.id && <Popconfirm
+                  placement="bottomRight"
+                  title="Are you sure? This can take a few minutes because it takes time to upload to the P2P network."
+                  onConfirm={handleSave}
+                  okText="ok"
+                  cancelText="cancel"
+                  icon={<QuestionCircleOutlined style={{ color: COLORS.DARK_GREY }} />}
+                  okButtonProps={{ type: 'ghost' }}
+                  disabled={isSaving || isLoading}
+                >
+                  <Button
+                    icon={isSaving ? <Tooltip title="loading argument"><Spin /></Tooltip> : <SaveOutlined /> }
+                    size="small"
+                    disabled={isSaving || isLoading}
+                    title="save"
                   >
-                    <Space>
-                      <UpOutlined />
-                      import
-                    </Space>
-                  </Upload>
-                </List.Item>
-                <List.Item style={{ cursor: 'pointer' }} onClick={handleExport}>
-                  <Space>
-                    <DownOutlined />
-                    export
-                  </Space>
-                </List.Item>
-                {match.params.id && <List.Item style={{ cursor: 'pointer' }}>
+                    {!mobile && 'save'}
+                  </Button>
+                </Popconfirm>}
+
+                {match.params.id &&
                   <Popconfirm
                     placement="bottomRight"
-                    title="This will copy the current argument and save it as a new one."
-                    onConfirm={handleFork}
+                    title="Are you sure? This can take a few minutes because it takes time to upload to the P2P network."
+                    onConfirm={handleSave}
                     okText="ok"
                     cancelText="cancel"
                     icon={<QuestionCircleOutlined style={{ color: COLORS.DARK_GREY }} />}
                     okButtonProps={{ type: 'ghost' }}
+                    disabled={isSaving || isLoading}
                   >
-                    <Space>
-                      <BranchesOutlined />
-                      fork
-                    </Space>
-                  </Popconfirm>
-                </List.Item>}
-                {match.params.id && <List.Item style={{ cursor: 'pointer' }} onClick={handleShowInfo}>
-                  <Space>
-                    <EyeOutlined />
-                    show info
-                  </Space>
-                </List.Item>}
-              </List>
+                    <Button
+                      icon={isSaving ? <Tooltip title="loading argument"><Spin /></Tooltip> : <SaveOutlined /> }
+                      size="small"
+                      disabled={isSaving || isLoading}
+                      title="update"
+                    >
+                      {!mobile && 'update'}
+                    </Button>
+                  </Popconfirm>}
+
+                <Popover
+                  placement="bottomRight"
+                  content={
+                    <List>
+                      <List.Item style={{ cursor: 'pointer' }} onClick={handleNew}>
+                        <Space>
+                          <PlusOutlined />
+                          new
+                        </Space>
+                      </List.Item>
+                      <List.Item style={{ cursor: 'pointer' }}>
+                        <Upload
+                          onChange={handleUpload}
+                          showUploadList={false}
+                        >
+                          <Space>
+                            <UpOutlined />
+                            import
+                          </Space>
+                        </Upload>
+                      </List.Item>
+                      <List.Item style={{ cursor: 'pointer' }} onClick={handleExport}>
+                        <Space>
+                          <DownOutlined />
+                          export
+                        </Space>
+                      </List.Item>
+                      {match.params.id && <List.Item style={{ cursor: 'pointer' }}>
+                        <Popconfirm
+                          placement="bottomRight"
+                          title="This will copy the current argument and save it as a new one."
+                          onConfirm={handleFork}
+                          okText="ok"
+                          cancelText="cancel"
+                          icon={<QuestionCircleOutlined style={{ color: COLORS.DARK_GREY }} />}
+                          okButtonProps={{ type: 'ghost' }}
+                          disabled={isSaving || isLoading}
+                        >
+                          <Space>
+                            {isSaving ? <Tooltip title="loading argument"><Spin /></Tooltip> : <BranchesOutlined />}
+                            fork
+                          </Space>
+                        </Popconfirm>
+                      </List.Item>}
+                      {match.params.id && <List.Item style={{ cursor: 'pointer' }} onClick={handleShowInfo}>
+                        <Space>
+                          <EyeOutlined />
+                          show info
+                        </Space>
+                      </List.Item>}
+                      {mobile && <>
+                        <List.Item style={{ cursor: 'pointer' }} onClick={handleAbout}>
+                          <Space>
+                            <QuestionCircleOutlined />
+                            about
+                          </Space>
+                        </List.Item>
+                        <List.Item style={{ cursor: 'pointer' }} onClick={handleGithub}>
+                          <Space>
+                            <GithubOutlined />
+                            github
+                          </Space>
+                        </List.Item>
+                      </>}
+                    </List>
+                  }
+                  trigger="click"
+                >
+                  <Button size="small">
+                    <MoreOutlined />
+                  </Button>
+                </Popover>
+                {!mobile && <>
+                  <Button
+                    style={{
+                      fontWeight: 'bold',
+                    }}
+                    size="small"
+                    onClick={handleAbout}
+                    title="about"
+                  >about</Button>
+                  <Button
+                    icon={<GithubOutlined />}
+                    size="large"
+                    style={{ border: 'none' }}
+                    onClick={handleGithub}
+                    title="github"
+                  />
+                </>}
+              </Space>
             }
-            trigger="click"
           >
-            <Button size="small">
-              <MoreOutlined />
-            </Button>
-          </Popover>
-          <Button
-            style={{
-              fontWeight: 'bold',
-            }}
-            size="small"
-            onClick={handleAbout}
-          >about</Button>
-          <Button
-            icon={<GithubOutlined />}
-            size="large"
-            style={{ border: 'none' }}
-            onClick={handleGithub}
-          />
-        </Space>
-      }
-    >
 
-      {secretDialogIsVisible && <Modal
-        visible
-        footer={null}
-        onCancel={handleCloseSecretDialog}
-        maskClosable
-        closable={false}
-        bodyStyle={{ padding: 0 }}
-      >
-        <Input
-          placeholder="enter secret code"
-          value={secret}
-          onChange={handleChangeSecret}
-          onPressEnter={handleUpdate}
-          size="large"
-          type="secret"
-          autoComplete={`sumfacts_${match.params.id}`}
-          style={{
-            padding: 16
-          }}
-          autoFocus
-        />
-      </Modal>}
+            {secretDialogIsVisible && <Modal
+              visible
+              footer={null}
+              onCancel={handleCloseSecretDialog}
+              maskClosable
+              closable={false}
+              bodyStyle={{ padding: 0 }}
+            >
+              <Input
+                placeholder="enter secret code"
+                value={secret}
+                onChange={handleChangeSecret}
+                onPressEnter={handleUpdate}
+                size="large"
+                type="secret"
+                autoComplete={`sumfacts_${match.params.id}`}
+                style={{
+                  padding: 16
+                }}
+                autoFocus
+              />
+            </Modal>}
 
-      <Modal
-        visible={infoDialogIsVisible}
-        footer={null}
-        onCancel={handleCloseInfoDialog}
-        maskClosable
-        closable={false}
-      >
-        <List
-          itemLayout="vertical"
-          size="large"
-        >
-          <List.Item>
-            <List.Item.Meta
-              title={<Typography.Title level={4}>permalink</Typography.Title>}
-              description={
-                <a href={`/id/${match.params.id}`} target="_blank" rel="noreferrer">{`${window.location.protocol}${window.location.host}/id/${match.params.id}`}</a>
-              }
-            />
-            <Typography.Text type="secondary">replace{''}
-              <Typography.Text code>{window.location.host}</Typography.Text>
-              with the root url of any other SumFacts client
-            </Typography.Text>
-          </List.Item>
-          <List.Item>
-            <List.Item.Meta
-              title={<Typography.Title level={4}>secret code</Typography.Title>}
-              description={
-                secret ?
-                  <>
-                    <p>
-                      <Input
-                        value={secret}
-                        autoComplete={`sumfacts_${match.params.id}`}
-                        addonAfter={
-                          secret ?
-                            <CopyOutlined
-                              onClick={handleCopySecret}
-                            /> :
-                            null
-                        }
-                      />
-                    </p>
-                    <p>
-                      <Typography.Text type="danger">
-                        N.B.: keep this safe! If you lose it you will not be able to edit this argument again. You will only see this once!
-                      </Typography.Text>
-                    </p>
-                  </> :
-                  <Input type="secret" disabled value="1234567890" />
-              }
-            />
-          </List.Item>
-        </List>
-      </Modal>
+            <Modal
+              visible={infoDialogIsVisible}
+              footer={null}
+              onCancel={handleCloseInfoDialog}
+              maskClosable
+              closable={false}
+            >
+              <List
+                itemLayout="vertical"
+                size="large"
+              >
+                <List.Item>
+                  <List.Item.Meta
+                    title={<Typography.Title level={4}>permalink</Typography.Title>}
+                    description={
+                      <a href={`/ipns/${match.params.id}`} target="_blank" rel="noreferrer">{`${window.location.protocol}//${window.location.host}/ipns/${match.params.id}`}</a>
+                    }
+                  />
+                  <Typography.Text type="secondary">replace{''}
+                    <Typography.Text code>{window.location.protocol}{'//'}{window.location.host}</Typography.Text>
+                    with the root url of any other SumFacts client
+                  </Typography.Text>
+                </List.Item>
+                <List.Item>
+                  <List.Item.Meta
+                    title={<Typography.Title level={4}>secret code</Typography.Title>}
+                    description={
+                      secret ?
+                        <>
+                          <p>
+                            <Input
+                              value={secret}
+                              autoComplete={`sumfacts_${match.params.id}`}
+                              addonAfter={
+                                secret ?
+                                  <CopyOutlined
+                                    onClick={handleCopySecret}
+                                  /> :
+                                  null
+                              }
+                            />
+                          </p>
+                          <p>
+                            <Typography.Text type="danger">
+                              N.B.: keep this safe! If you lose it you will not be able to edit this argument again. You will only see this once!
+                            </Typography.Text>
+                          </p>
+                        </> :
+                        <Input type="secret" disabled value="1234567890" />
+                    }
+                  />
+                </List.Item>
+              </List>
+            </Modal>
 
-      {showAbout && <About onClose={handleCloseAbout} />}
+            {showAbout && <About onClose={handleCloseAbout} />}
 
-      {/* {ipfsInitError && !errorHidden &&
-        <Alert
-          message="Problem connecting to peer-to-peer network..."
-          type="error"
-          closable
-          onClose={handleCloseError}
-        />
-      } */}
+            {/* {ipfsInitError && !errorHidden &&
+              <Alert
+                message="Problem connecting to peer-to-peer network..."
+                type="error"
+                closable
+                onClose={handleCloseError}
+              />
+            } */}
 
-      <div style={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'row', position: 'relative' }} className="MapPage">
-        <div style={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-          <FlowChart
-            ref={flowchartRef}
-            argument={argument}
-            onChange={setArgument}
-          />
-        </div>
-      </div>
-    </AppLayout>
+            <div style={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'row', position: 'relative' }} className="MapPage">
+              <div style={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                <FlowChart
+                  ref={flowchartRef}
+                  argument={initialArgument}
+                  onChange={setInitialArgument}
+                />
+              </div>
+            </div>
+          </AppLayout>
+                  );
+        }}
+      </ContainerDimensions>  
   );
 }

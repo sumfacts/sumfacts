@@ -3,6 +3,7 @@
 .AppLayout {
   &-content {
     flex-grow: 1;
+    padding: 0 !important;
   }
 
   .ant-layout-header {

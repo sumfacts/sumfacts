@@ -11,7 +11,7 @@
 <h4 align="center"><a href="https://sumfacts.com">SumFacts.com</a> - a client-only web application for collaboratively building logical arguments as diagrams that are shared over a peer-to-peer network.
 </h4>
 
-![https://github.com/sumfacts/sumfacts/blob/master/public/about-banner.png?raw=true](https://github.com/sumfacts/sumfacts/blob/master/public/about-banner.png?raw=true)
+![https://github.com/sumfacts/sumfacts/blob/master/public/about-banner.jpeg?raw=true](https://github.com/sumfacts/sumfacts/blob/master/public/about-banner.jpeg?raw=true)
 
 <p align="center">
   <a href="http://ipfs.io/">

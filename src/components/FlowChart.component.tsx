@@ -11,7 +11,6 @@ import ReactFlow, {
   isEdge,
   BackgroundVariant,
   // useStoreState,
-  isNode,
 } from 'react-flow-renderer';
 import domtoimage from "dom-to-image";
 
@@ -22,28 +21,40 @@ import { FlowChartEdge } from './FlowChartEdge.component';
 import { FlowChartNode } from './FlowChartNode.component';
 
 const EDGE_TYPES = {
-  supports: {
-    label: 'supports',
+  support: {
+    label: 'support',
     labelStyle: {
-      fill: 'white',
+      fill: COLORS.DARK_GREY,
     },
     labelBgStyle: {
-      fill: COLORS.GREEN,
+      fill: 'white',
     },
     style: {
-      stroke: COLORS.GREEN,
+      stroke: COLORS.DARK_GREY,
     },
   },
-  opposes: {
-    label: 'opposes',
+  oppose: {
+    label: 'oppose',
     labelStyle: {
-      fill: 'white',
+      fill: COLORS.RED,
     },
     labelBgStyle: {
-      fill: COLORS.RED,
+      fill: 'white',
     },
     style: {
       stroke: COLORS.RED,
+    },
+  },
+  unknown: {
+    label: 'unknown',
+    labelStyle: {
+      fill: COLORS.ORANGE,
+    },
+    labelBgStyle: {
+      fill: 'white',
+    },
+    style: {
+      stroke: COLORS.ORANGE,
     },
   },
 };
@@ -51,17 +62,17 @@ const EDGE_TYPES = {
 const DEFAULT_EDGE_PROPS = {
   type: 'custom',
   animated: true,
-  arrowHeadType: 'arrow',
-  ...EDGE_TYPES.supports,
+  // arrowHeadType: 'arrow',
+  ...EDGE_TYPES.support,
 };
 
-const NODE_TYPES = [
-  'or',
-  'and',
-  'link',
-  'text',
-  'argument',
-];
+// const NODE_TYPES = [
+//   'or',
+//   'and',
+//   'link',
+//   'text',
+//   'argument',
+// ];
 
 // const StateListener: React.FC<{ onChange: (exportData: any[]) => void }> = ({ onChange }) => {
 //   const nodes = useStoreState((state) => state.nodes);
@@ -69,7 +80,7 @@ const NODE_TYPES = [
 //   return null;
 // };
 
-const nodeTypeCount = NODE_TYPES.length;
+// const nodeTypeCount = NODE_TYPES.length;
 
 export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData: string) => void}>(({ argument, onChange }, ref) => {
   const [elements, setElements] = useState<any[]>([]);
@@ -156,7 +167,7 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
     merge(
       {},
       DEFAULT_EDGE_PROPS,
-      EDGE_TYPES[element.label as 'supports' | 'opposes'],
+      EDGE_TYPES[element.label as 'support' | 'oppose'],
       element,
     )
   , []);

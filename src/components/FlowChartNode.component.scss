@@ -1,0 +1,129 @@
+$grey: rgb(51, 51, 51);
+$black: black;
+$text: #597ef7;
+$link: #faad14;
+$argument: #9254de;
+$and: #52c41a;
+$or: #fa8c16;
+$handleSize: 24px;
+
+.FlowChartNode {
+  display: flex;
+  flex: 1;
+  color: $grey;
+  border: 1px solid $grey;
+  z-index: 3;
+  font-family: 'Roboto Mono', monospace;
+  border-radius: 4px;
+  background: white;
+
+  &--text {
+    &,
+    .FlowChartNode__handle {
+      border-color: $text;
+
+      &--source {
+        background-color: $text;
+      }
+    }
+  }
+
+  &--link {
+    &,
+    .FlowChartNode__handle {
+      border-color: $link;
+
+      &--source {
+        background-color: $link;
+      }
+    }
+
+    .anticon {
+      color: $link;
+    }
+  }
+
+  &--argument {
+    &,
+    .FlowChartNode__handle {
+      border-color: $argument;
+
+      &--source {
+        background-color: $argument;
+      }
+    }
+
+    .anticon {
+      color: $argument;
+    }
+  }
+
+  &--and {
+    &,
+    .FlowChartNode__handle {
+      border-color: $and;
+
+      &--source {
+        background-color: $and;
+      }
+    }
+
+    .FlowChartNode__tag {
+      background-color: $and;
+    }
+  }
+
+  &--or {
+    &,
+    .FlowChartNode__handle {
+      border-color: $or;
+
+      &--source {
+        background-color: $or;
+      }
+    }
+
+    .FlowChartNode__tag {
+      background-color: $or;
+    }
+  }
+
+  &__handle {
+    width: $handleSize;
+    height: $handleSize;
+    z-index: -1;
+    border: 1px solid $black;
+    border-radius: $handleSize;
+    background: white;
+    transform: translate(0, -50%);
+    right: -$handleSize/2;
+    background: white;
+  }
+
+  &__tag {
+    margin: 0;
+    z-index: 2;
+    width: $handleSize * 2.1;
+    height: $handleSize;
+    background: $black;
+    border-color: $black;
+    color: white;
+    border: none !important;
+  }
+
+  &__input {
+    width: 300px;
+    color: $grey;
+    border: none;
+    z-index: 3;
+    font-family: 'Roboto Mono', monospace;
+    padding: 10px;
+    font-size: 14px;
+    background: transparent;
+    flex-grow: 1;
+    resize: none;
+    text-transform: uppercase;
+    display: flex;
+    text-overflow: ellipsis;
+  }
+}

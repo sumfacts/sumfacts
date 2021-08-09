@@ -7,6 +7,13 @@ export const COLORS = {
   MAGENTA: '#eb2f96',
   PURPLE: '#722ed1',
   YELLOW: '#ffec3d',
+  ORANGE: '#fa8c16',
+
+  TEXT: '#597ef7',
+  LINK: '#faad14',
+  ARGUMENT: '#9254de',
+  AND: '#52c41a',
+  OR: '#fa8c16',
 };
 
 export const KEYS = {

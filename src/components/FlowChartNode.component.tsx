@@ -1,66 +1,22 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import {
+  Space,
+  Badge,
   Dropdown,
   Menu,
   Tag,
 } from 'antd';
-import { LinkOutlined, ThunderboltOutlined, MoreOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { LinkOutlined, ThunderboltOutlined, MoreOutlined, ExportOutlined } from '@ant-design/icons';
 import {
   Handle,
   Position,
 } from 'react-flow-renderer';
 import TextareaAutosize from 'react-textarea-autosize';
 
+import './FlowChartNode.component.scss';
 import { COLORS } from '../constants';
 
 const HANDLE_SIZE = 24;
-const HANDLE_COLOR = COLORS.DARK_GREY;
-
-const tagStyle = {
-  margin: 0,
-  zIndex: 2,
-  width: HANDLE_SIZE * 2.1,
-  height: HANDLE_SIZE,
-  background: HANDLE_COLOR,
-  borderColor: HANDLE_COLOR,
-  color: 'white',
-  border: 'none !important',
-};
-
-const handleStyle = {
-  width: HANDLE_SIZE,
-  height: HANDLE_SIZE,
-  zIndex: -1,
-  border: `1px solid ${HANDLE_COLOR}`,
-  borderRadius: HANDLE_SIZE,
-  background: 'white',
-  transform: `translate(0, -50%)`,
-};
-
-const nodeStyle = {
-  color: 'rgb(51, 51, 51)',
-  border: `1px solid ${HANDLE_COLOR}`,
-  zIndex: 3,
-  fontFamily: "'Roboto Mono', monospace",
-  // padding: 10,
-  borderRadius: 4,
-  // fontSize: 14,
-  background: 'white',
-};
-
-const inputStyle = {
-  width: 200,
-  color: 'rgb(51, 51, 51)',
-  border: 'none',
-  // width: 200,
-  zIndex: 3,
-  fontFamily: "'Roboto Mono', monospace",
-  padding: 10,
-  // borderRadius: 4,
-  fontSize: 14,
-  background: 'transparent',
-  flexGrow: 1,
-};
 
 const PLACEHOLDERS = {
   text: 'enter statement',
@@ -84,8 +40,11 @@ const ActionsDropdown = React.memo<{data: any; value: any; children: any}>(({ da
       overlay={
         <Menu>
           {data.type === 'link' && Boolean(value?.length) &&
-            <Menu.Item onClick={handleOpenTab(value)} icon={<ArrowRightOutlined />}>
-              open link
+            <Menu.Item onClick={handleOpenTab(value)}>
+              <Space>
+                open link
+                <ExportOutlined style={{ color: COLORS.LINK }} />
+              </Space>
             </Menu.Item>
           }
           {/* {data.type === 'argument' && Boolean(value?.length) &&
@@ -94,34 +53,37 @@ const ActionsDropdown = React.memo<{data: any; value: any; children: any}>(({ da
             </Menu.Item>
           } */}
           {data.type === 'argument' && Boolean(value?.length) &&
-            <Menu.Item onClick={handleOpenTab(`/ipns/${value}`)} icon={<ArrowRightOutlined />}>
-              open argument
+            <Menu.Item onClick={handleOpenTab(`/ipns/${value}`)} style={{ color: COLORS.ARGUMENT }}>
+              <Space>
+                open argument
+                <ExportOutlined />
+              </Space>
             </Menu.Item>
           }
           <Menu.SubMenu title="change type">
             {data.type !== 'text' &&
               <Menu.Item onClick={handleChangeType('text')}>
-                text
+                <Badge color={COLORS.TEXT} text="text" />
               </Menu.Item>
             }
             {data.type !== 'link' &&
               <Menu.Item onClick={handleChangeType('link')}>
-                link
+                <Badge color={COLORS.LINK} text="link" />
               </Menu.Item>
             }
             {data.type !== 'and' &&
               <Menu.Item onClick={handleChangeType('and')}>
-                and
+                <Badge color={COLORS.AND} text="and" />
               </Menu.Item>
             }
             {data.type !== 'or' &&
               <Menu.Item onClick={handleChangeType('or')}>
-                or
+                <Badge color={COLORS.OR} text="or" />
               </Menu.Item>
             }
             {data.type !== 'argument' &&
               <Menu.Item onClick={handleChangeType('argument')}>
-                argument
+                <Badge color={COLORS.ARGUMENT} text="argument" />
               </Menu.Item>
             }
           </Menu.SubMenu>
@@ -167,17 +129,16 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
   const isAndOrOr = useMemo(() => ['and', 'or'].includes(data.type), [data]);
 
   return (
-    <div style={{ display: 'flex', flex: 1, ...nodeStyle }}>
+    <div className={`FlowChartNode FlowChartNode--${data.type}`}>
       <Handle
         type="target"
         position={Position.Right}
         isConnectable={isConnectable}
+        className="FlowChartNode__handle FlowChartNode__handle--target"
         style={{
-          ...handleStyle,
-          right: -HANDLE_SIZE/2,
           height: isAndOrOr ? HANDLE_SIZE : HANDLE_SIZE * 1.4,
-          background: 'white',
           zIndex: isAndOrOr ? 9 : -1,
+          right: -HANDLE_SIZE/2,
         }}
       />
 
@@ -186,7 +147,7 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
           value={value}
           data={data}
         >
-          <Tag style={tagStyle}>AND</Tag>
+          <Tag className="FlowChartNode__tag">AND</Tag>
         </ActionsDropdown>
       }
 
@@ -195,7 +156,7 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
           value={value}
           data={data}
         >
-          <Tag style={tagStyle}>OR</Tag>
+          <Tag className="FlowChartNode__tag">OR</Tag>
         </ActionsDropdown>
       }
 
@@ -209,7 +170,6 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
               <MoreOutlined />
             </div>
           </ActionsDropdown>
-          {/* {data.type === 'text' && */}
             <TextareaAutosize
               placeholder={PLACEHOLDERS[data.type as 'text' | 'link' | 'argument']}
               // placeholder={prevKey === KEYS.BACKSPACE ?  'backspace to delete' : PLACEHOLDERS[data.type as 'text' | 'link' | 'argument']}
@@ -217,12 +177,7 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
               // onKeyUp={handleKeyUp}
               value={value}
               autoFocus={data.autoFocus}
-              style={{
-                ...inputStyle,
-                resize: 'none',
-                // textAlign: 'center',
-                textTransform: 'uppercase',
-              }}
+              className="FlowChartNode__input"
             />
 
             {data.type === 'link' && Boolean(value?.length) &&
@@ -231,65 +186,6 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
             {data.type === 'argument' && Boolean(value?.length) &&
               <ThunderboltOutlined style={{ padding: 16 }} onClick={handleOpenTab(`/ipns/${value}`)} />
             }
-          {/* }
-
-          {data.type === 'link' &&
-            <div
-              style={{
-                ...inputStyle,
-                display: 'flex',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              <a
-                href={data.label}
-                target="_blank" rel="noreferrer"
-              >
-                <Space>
-                  <Typography.Text ellipsis italic style={{ width: 180 }}>{data.label}</Typography.Text>
-                  <LinkOutlined />
-                </Space>
-              </a>
-            </div>
-          }
-
-          {data.type === 'argument' && Boolean(value?.length) &&
-            <div
-              style={{
-                ...inputStyle,
-                display: 'flex',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              <a
-                href={data.label}
-                target="_blank" rel="noreferrer"
-              >
-                <Space>
-                  <Typography.Text ellipsis italic style={{ width: 180 }}>{data.label}</Typography.Text>
-                  <ThunderboltOutlined />
-                </Space>
-              </a>
-            </div>
-          }
-
-          {data.type === 'argument' && !Boolean(value?.length) &&
-            <Input
-              prefix={
-                <ThunderboltOutlined />
-              }
-              placeholder={prevKey === KEYS.BACKSPACE ?  'backspace to delete' : "Paste argument ID"}
-              onChange={handleChange}
-              onKeyUp={handleKeyUp}
-              autoFocus={data.autoFocus}
-              style={{
-                ...inputStyle,
-                resize: 'none',
-                // textAlign: 'center',
-                textTransform: 'uppercase',
-              }}
-            />
-          } */}
         </div>
       }
 
@@ -298,10 +194,9 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
         position={Position.Left}
         onConnect={(params) => console.log('handle onConnect', params)}
         isConnectable={isConnectable}
+        className="FlowChartNode__handle FlowChartNode__handle--source"
         style={{
-          ...handleStyle,
           left: -HANDLE_SIZE/2,
-          background: HANDLE_COLOR,
         }}
       />
     </div>

@@ -23,7 +23,7 @@ export const FlowChartEdge = ({
   labelBgPadding,
   labelBgBorderRadius,
 }: any) => {
-  const edgePath = getBezierPath({ sourceX, sourceY, sourcePosition, targetX: targetX + 10, targetY, targetPosition });
+  const edgePath = getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
   const markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
 
   const edgeCenter = getEdgeCenter({
@@ -33,7 +33,7 @@ export const FlowChartEdge = ({
     targetY
   });
   return (
-    <>
+    <g className={`FlowChartEdge FlowChartEdge--${label}`}>
       <path
         id={id}
         className="react-flow__edge-path"
@@ -50,6 +50,6 @@ export const FlowChartEdge = ({
         labelBgPadding={labelBgPadding}
         labelBgBorderRadius={labelBgBorderRadius}
       />
-    </>
+    </g>
   );
 }

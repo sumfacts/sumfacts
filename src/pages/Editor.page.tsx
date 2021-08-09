@@ -175,7 +175,11 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
       });
       return;
     }
-    await update(secret, argument);
+    try {
+      await update(secret, argument);
+    } catch (error) {
+      console.error(error);
+    }
     setIsSaving(true);
     handleCloseSecretDialog();
   }, [secret, handleGetArgument, update, handleCloseSecretDialog]);
@@ -198,14 +202,18 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
       }
       return;
     }
-    const { id, secret: newSecret } = await create(argument);
-    if (!id || !newSecret) return;
-    const permalink = `/ipns/${id}`;
-    setInfoDialogIsVisible(true);
-    setSecret(newSecret);
+    try {
+      const { id, secret: newSecret } = await create(argument);
+      if (!id || !newSecret) return;
+      const permalink = `/ipns/${id}`;
+      setInfoDialogIsVisible(true);
+      setSecret(newSecret);
+      download(`sumfacts_${id}_secret_info`, { permalink, secret: newSecret, id });
+      push(permalink);
+    } catch (error) {
+      console.error(error);
+    }
     setIsSaving(false);
-    download(`sumfacts_${id}_secret_info`, { permalink, secret: newSecret, id });
-    push(permalink);
   }, [handleGetArgument, create, match.params.id, secret, push, handleUpdate]);
 
   const handleFork = useCallback(async () => {
@@ -219,10 +227,14 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
       return;
     }
     delete argument.id;
-    const { id: newId } = await create(argument);
+    try {
+      const { id: newId } = await create(argument);
+      const newTab = window.open(`/ipns/${newId}`, '_blank');
+      if (newTab) newTab.focus();
+    } catch (error) {
+      console.error(error);
+    }
     setIsSaving(false);
-    const newTab = window.open(`/ipns/${newId}`, '_blank');
-    if (newTab) newTab.focus();
   }, [handleGetArgument, create, match.params.id]);
 
   const handleExport = useCallback(async () => {

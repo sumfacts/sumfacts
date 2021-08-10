@@ -3,18 +3,15 @@ import { findIndex, pick, merge } from 'lodash';
 import { Typography } from 'antd';
 import { nanoid } from 'nanoid';
 import ReactFlow, {
-  // Node,
   removeElements,
   addEdge,
   Controls,
   Background,
   isEdge,
   BackgroundVariant,
-  // useStoreState,
 } from 'react-flow-renderer';
 import domtoimage from "dom-to-image";
 
-// import { scraper } from '../scraper';
 import { isValidUrl } from '../util';
 import { COLORS, VERSION } from '../constants';
 import { FlowChartEdge } from './FlowChartEdge.component';
@@ -62,25 +59,8 @@ const EDGE_TYPES = {
 const DEFAULT_EDGE_PROPS = {
   type: 'custom',
   animated: true,
-  // arrowHeadType: 'arrow',
   ...EDGE_TYPES.support,
 };
-
-// const NODE_TYPES = [
-//   'or',
-//   'and',
-//   'link',
-//   'text',
-//   'argument',
-// ];
-
-// const StateListener: React.FC<{ onChange: (exportData: any[]) => void }> = ({ onChange }) => {
-//   const nodes = useStoreState((state) => state.nodes);
-//   onChange(nodes);
-//   return null;
-// };
-
-// const nodeTypeCount = NODE_TYPES.length;
 
 export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData: string) => void}>(({ argument, onChange }, ref) => {
   const [elements, setElements] = useState<any[]>([]);
@@ -117,24 +97,6 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
                   element.data.label = value;
                   if (isValidUrl(value)) {
                     element.data.type = 'link';
-                    // fetch(value)
-                    //   .then(response => response.text())
-                    //   .then(html =>
-                    //     scraper({
-                    //       url: value,
-                    //       html,
-                    //       validateUrl: true,
-                    //     })
-                    //   )
-                    //   .then(meta => {
-                    //     handleUpdateElement({
-                    //       id,
-                    //       data: {
-                    //         meta,
-                    //         type: 'link',
-                    //       }
-                    //     });
-                    //   });
                   }
                 }
                 return element;
@@ -233,21 +195,7 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
 
   const handleElementDoubleClick = useCallback((event, element) => {
     event.stopPropagation();
-    // if (isNode(element)) {
-    //   const { id, data: { type, label } } = element;
-    //   const currentTypeIndex = findIndex(NODE_TYPES, (nodeType) => nodeType === type);
-    //   let nextIndex = (currentTypeIndex > 0 ? currentTypeIndex : nodeTypeCount) - 1;
-    //   let nextType = NODE_TYPES[nextIndex];
-    //   if (nextType === 'text' && isValidUrl(label)) {
-    //     nextType = 'link';
-    //   }
-    //   if (nextType === 'link' && !isValidUrl(label)) {
-    //     nextIndex = (nextIndex > 0 ? nextIndex : nodeTypeCount) - 1;
-    //     nextType = NODE_TYPES[nextIndex];
-    //   }
-    //   handleUpdateElement({ id, data: { type: nextType } });
-    // }
-  }, [handleUpdateElement]);
+  }, []);
 
   const onElementsRemove = useCallback((elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els)),

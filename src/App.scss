@@ -194,6 +194,9 @@ body,
       display: block;
     }
   }
+  .hide-sm {
+    display: none;
+  }
 }
 
 @include md {

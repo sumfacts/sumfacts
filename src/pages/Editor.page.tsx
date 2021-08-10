@@ -279,42 +279,20 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
         return (
           <AppLayout
             headerContent={
-              <Space>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 {isLoading && <Tooltip title="loading argument"><Spin /></Tooltip>}
 
-                <div style={{ flexGrow: 1 }}>
+                <div style={{ flexGrow: 1, marginRight: 12 }}>
                   <Input
-                    size="small"
                     placeholder="enter title"
                     value={title}
                     onChange={handleUpdateTitle}
-                    style={{ width: '100%' }}
                     disabled={isSaving || isLoading}
                   />
                 </div>
 
-                {!match.params.id && <Popconfirm
-                  placement="bottomRight"
-                  title="Are you sure? This can take a few minutes because it takes time to upload to the P2P network."
-                  onConfirm={handleSave}
-                  okText="ok"
-                  cancelText="cancel"
-                  icon={<QuestionCircleOutlined style={{ color: COLORS.DARK_GREY }} />}
-                  okButtonProps={{ type: 'ghost' }}
-                  disabled={isSaving || isLoading}
-                >
-                  <Button
-                    icon={isSaving ? <Tooltip title="loading argument"><Spin /></Tooltip> : <SaveOutlined /> }
-                    size="small"
-                    disabled={isSaving || isLoading}
-                    title="save"
-                  >
-                    {!mobile && 'save'}
-                  </Button>
-                </Popconfirm>}
-
-                {match.params.id &&
-                  <Popconfirm
+                <Space>
+                  {!match.params.id && <Popconfirm
                     placement="bottomRight"
                     title="Are you sure? This can take a few minutes because it takes time to upload to the P2P network."
                     onConfirm={handleSave}
@@ -326,107 +304,125 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
                   >
                     <Button
                       icon={isSaving ? <Tooltip title="loading argument"><Spin /></Tooltip> : <SaveOutlined /> }
-                      size="small"
                       disabled={isSaving || isLoading}
-                      title="update"
+                      title="save"
                     >
-                      {!mobile && 'update'}
+                      {!mobile && 'save'}
                     </Button>
                   </Popconfirm>}
 
-                <Popover
-                  placement="bottomRight"
-                  content={
-                    <List>
-                      <List.Item style={{ cursor: 'pointer' }} onClick={handleNew}>
-                        <Space>
-                          <PlusOutlined />
-                          new
-                        </Space>
-                      </List.Item>
-                      <List.Item style={{ cursor: 'pointer' }}>
-                        <Upload
-                          onChange={handleUpload}
-                          showUploadList={false}
-                        >
+                  {match.params.id &&
+                    <Popconfirm
+                      placement="bottomRight"
+                      title="Are you sure? This can take a few minutes because it takes time to upload to the P2P network."
+                      onConfirm={handleSave}
+                      okText="ok"
+                      cancelText="cancel"
+                      icon={<QuestionCircleOutlined style={{ color: COLORS.DARK_GREY }} />}
+                      okButtonProps={{ type: 'ghost' }}
+                      disabled={isSaving || isLoading}
+                    >
+                      <Button
+                        icon={isSaving ? <Tooltip title="loading argument"><Spin /></Tooltip> : <SaveOutlined /> }
+                        disabled={isSaving || isLoading}
+                        title="update"
+                      >
+                        {!mobile && 'update'}
+                      </Button>
+                    </Popconfirm>}
+
+                  <Popover
+                    placement="bottomRight"
+                    content={
+                      <List>
+                        <List.Item style={{ cursor: 'pointer' }} onClick={handleNew}>
                           <Space>
-                            <UpOutlined />
-                            import
-                          </Space>
-                        </Upload>
-                      </List.Item>
-                      <List.Item style={{ cursor: 'pointer' }} onClick={handleExport}>
-                        <Space>
-                          <DownOutlined />
-                          export
-                        </Space>
-                      </List.Item>
-                      {match.params.id && <List.Item style={{ cursor: 'pointer' }}>
-                        <Popconfirm
-                          placement="bottomRight"
-                          title="This will copy the current argument and save it as a new one."
-                          onConfirm={handleFork}
-                          okText="ok"
-                          cancelText="cancel"
-                          icon={<QuestionCircleOutlined style={{ color: COLORS.DARK_GREY }} />}
-                          okButtonProps={{ type: 'ghost' }}
-                          disabled={isSaving || isLoading}
-                        >
-                          <Space>
-                            {isSaving ? <Tooltip title="loading argument"><Spin /></Tooltip> : <BranchesOutlined />}
-                            fork
-                          </Space>
-                        </Popconfirm>
-                      </List.Item>}
-                      {match.params.id && <List.Item style={{ cursor: 'pointer' }} onClick={handleShowInfo}>
-                        <Space>
-                          <EyeOutlined />
-                          show info
-                        </Space>
-                      </List.Item>}
-                      {mobile && <>
-                        <List.Item style={{ cursor: 'pointer' }} onClick={handleAbout}>
-                          <Space>
-                            <QuestionCircleOutlined />
-                            about
+                            <PlusOutlined />
+                            new
                           </Space>
                         </List.Item>
-                        <List.Item style={{ cursor: 'pointer' }} onClick={handleGithub}>
+                        <List.Item style={{ cursor: 'pointer' }}>
+                          <Upload
+                            onChange={handleUpload}
+                            showUploadList={false}
+                          >
+                            <Space>
+                              <UpOutlined />
+                              import
+                            </Space>
+                          </Upload>
+                        </List.Item>
+                        <List.Item style={{ cursor: 'pointer' }} onClick={handleExport}>
                           <Space>
-                            <GithubOutlined />
-                            github
+                            <DownOutlined />
+                            export
                           </Space>
                         </List.Item>
-                      </>}
-                    </List>
-                  }
-                  trigger="click"
-                >
-                  <Button size="small">
-                    <MoreOutlined />
-                  </Button>
-                </Popover>
-                {!mobile && <>
-                  <Button
-                    style={{
-                      fontWeight: 'bold',
-                    }}
-                    size="small"
-                    onClick={handleAbout}
-                    title="about"
-                  >about</Button>
-                  <Button
-                    icon={<GithubOutlined />}
-                    size="large"
-                    style={{ border: 'none' }}
-                    onClick={handleGithub}
-                    title="github"
-                  />
-                </>}
-              </Space>
+                        {match.params.id && <List.Item style={{ cursor: 'pointer' }}>
+                          <Popconfirm
+                            placement="bottomRight"
+                            title="This will copy the current argument and save it as a new one."
+                            onConfirm={handleFork}
+                            okText="ok"
+                            cancelText="cancel"
+                            icon={<QuestionCircleOutlined style={{ color: COLORS.DARK_GREY }} />}
+                            okButtonProps={{ type: 'ghost' }}
+                            disabled={isSaving || isLoading}
+                          >
+                            <Space>
+                              {isSaving ? <Tooltip title="loading argument"><Spin /></Tooltip> : <BranchesOutlined />}
+                              fork
+                            </Space>
+                          </Popconfirm>
+                        </List.Item>}
+                        {match.params.id && <List.Item style={{ cursor: 'pointer' }} onClick={handleShowInfo}>
+                          <Space>
+                            <EyeOutlined />
+                            show info
+                          </Space>
+                        </List.Item>}
+                        {mobile && <>
+                          <List.Item style={{ cursor: 'pointer' }} onClick={handleAbout}>
+                            <Space>
+                              <QuestionCircleOutlined />
+                              about
+                            </Space>
+                          </List.Item>
+                          <List.Item style={{ cursor: 'pointer' }} onClick={handleGithub}>
+                            <Space>
+                              <GithubOutlined />
+                              github
+                            </Space>
+                          </List.Item>
+                        </>}
+                      </List>
+                    }
+                    trigger="click"
+                  >
+                    <Button>
+                      <MoreOutlined />
+                    </Button>
+                  </Popover>
+                  {!mobile && <>
+                    <Button
+                      style={{
+                        fontWeight: 'bold',
+                      }}
+                      onClick={handleAbout}
+                      title="about"
+                    >about</Button>
+                    <Button
+                      icon={<GithubOutlined />}
+                      size="large"
+                      style={{ border: 'none' }}
+                      onClick={handleGithub}
+                      title="github"
+                    />
+                  </>}
+                </Space>
+              </div>
             }
           >
-
             {secretDialogIsVisible && <Modal
               visible
               footer={null}
@@ -507,15 +503,6 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
 
             {showAbout && <About onClose={handleCloseAbout} />}
 
-            {/* {ipfsInitError && !errorHidden &&
-              <Alert
-                message="Problem connecting to peer-to-peer network..."
-                type="error"
-                closable
-                onClose={handleCloseError}
-              />
-            } */}
-
             <div style={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'row', position: 'relative' }} className="MapPage">
               <div style={{ width: '100%', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                 <FlowChart
@@ -526,8 +513,8 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
               </div>
             </div>
           </AppLayout>
-                  );
-        }}
-      </ContainerDimensions>  
+        );
+      }}
+    </ContainerDimensions>
   );
 }

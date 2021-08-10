@@ -23,7 +23,7 @@ $handleSize: 24px;
       border-color: $text;
 
       &--source {
-        background-color: $text;
+        background-color: $text !important;
       }
     }
   }
@@ -34,7 +34,7 @@ $handleSize: 24px;
       border-color: $link;
 
       &--source {
-        background-color: $link;
+        background-color: $link !important;
       }
     }
 
@@ -49,7 +49,7 @@ $handleSize: 24px;
       border-color: $argument;
 
       &--source {
-        background-color: $argument;
+        background-color: $argument !important;
       }
     }
 
@@ -64,12 +64,12 @@ $handleSize: 24px;
       border-color: $and;
 
       &--source {
-        background-color: $and;
+        background-color: $and !important;
       }
     }
 
     .FlowChartNode__tag {
-      background-color: $and;
+      background-color: $and !important;
     }
   }
 
@@ -79,25 +79,24 @@ $handleSize: 24px;
       border-color: $or;
 
       &--source {
-        background-color: $or;
+        background-color: $or !important;
       }
     }
 
     .FlowChartNode__tag {
-      background-color: $or;
+      background-color: $or !important;
     }
   }
 
   &__handle {
-    width: $handleSize;
+    width: $handleSize !important;
     height: $handleSize;
     z-index: -1;
     border: 1px solid $black;
     border-radius: $handleSize;
-    background: white;
+    background: white !important;
     transform: translate(0, -50%);
     right: -$handleSize/2;
-    background: white;
   }
 
   &__tag {

@@ -196,6 +196,7 @@ export const FlowChartNode = React.memo<{ data: any, isConnectable: boolean }>((
         isConnectable={isConnectable}
         className="FlowChartNode__handle FlowChartNode__handle--source"
         style={{
+          height: HANDLE_SIZE,
           left: -HANDLE_SIZE/2,
         }}
       />

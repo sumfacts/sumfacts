@@ -46,6 +46,13 @@ const SAVE_IMAGE = true;
 const ajv = new Ajv();
 const validate = ajv.compile(argumentSchema);
 
+const cleanDanglingElements = (elements: any[]) => {
+  const elementsMap = elements.reduce((reduced, element) => ({ ...reduced, [element.id]: element}), {});
+  return elements.filter((element) =>
+    !element.source || (elementsMap[element.source] && elementsMap[element.target])
+  );
+};
+
 export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }): JSX.Element | null => {
   const [showAbout, setShowAbout] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -62,7 +69,8 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
   const [isLoading, setIsLoading] = useState(Boolean(match.params.id));
 
   const handleResetArgument = useCallback((arg: any) => {
-    setInitialArgument(arg);
+    if (!arg) return;
+    setInitialArgument({ ...arg, elements: cleanDanglingElements(arg.elements) });
     setTitle(arg?.title);
   }, []);
 
@@ -146,6 +154,7 @@ export const EditorPage: FC<RouteComponentProps<{ id?: string }>> = ({ match }):
     const currentArgument = await flowchartRef.current.toObject(saveImage);
     const result = {
       ...currentArgument,
+      elements: cleanDanglingElements(currentArgument.elements),
       title,
     };
 

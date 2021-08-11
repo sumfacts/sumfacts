@@ -141,6 +141,9 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
         getDefaultNodeProps(element)
     );
     setElements(() => newElements);
+    setTimeout(() => {
+      instanceRef.current.fitView();
+    }, 500);
   }, [argument?.elements, getDefaultEdgeProps, getDefaultNodeProps]);
 
   const handleLoad = useCallback((reactFlowInstance) => {
@@ -245,6 +248,10 @@ export const FlowChart = forwardRef<any, { argument?: any; onChange: (exportData
       return exportData;
     },
   }), []);
+
+  const handleStopPropagation = useCallback((...args) => {
+    console.log(args);
+  }, []);
 
   return (
     <div
